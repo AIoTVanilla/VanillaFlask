@@ -551,6 +551,13 @@ section {
   padding: 0;
 }
 
+.featured-services .col-lg-4 {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
 .featured-services .icon-box {
   padding: 20px;
   color: #5f687b;
@@ -559,7 +566,6 @@ section {
   border: 1px solid #f9f9fa;
   transition: 0.3s;
   height: 100%;
-  cursor: pointer;
 }
 
 .featured-services .icon {
@@ -583,12 +589,13 @@ section {
 }
 
 .featured-services .icon-box:hover {
-  border-color: #eaecef;
+  /* border-color: #eaecef; */
+  border-color: #16df7e;
 }
 
-.featured-services .icon-box:hover .title a {
+/* .featured-services .icon-box:hover .title a {
   color: #16df7e;
-}
+} */
 
 .featured-services .description {
   line-height: 24px;
