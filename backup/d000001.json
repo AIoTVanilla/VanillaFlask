@@ -1,0 +1,865 @@
+{
+    "sensor": [
+      {
+        "temperature": 17.6,
+        "update_time": "2022.12.21 12:27:17",
+        "water_level": 0,
+        "ph": 4.69970703125,
+        "humidity": 29.5,
+        "turbidity": 4.8095703125
+      },
+      {
+        "turbidity": 4.8583984375,
+        "ph": 4.753824869791666,
+        "humidity": 29.4,
+        "water_level": 0,
+        "temperature": 17.6,
+        "update_time": "2022.12.21 12:27:40"
+      },
+      {
+        "water_level": 0,
+        "humidity": 29.5,
+        "turbidity": 4.8046875,
+        "update_time": "2022.12.21 12:28:03",
+        "ph": 4.688313802083334,
+        "temperature": 17.5
+      },
+      {
+        "ph": 4.696858723958334,
+        "turbidity": 4.7607421875,
+        "temperature": 17.5,
+        "humidity": 29.4,
+        "update_time": "2022.12.21 12:28:25",
+        "water_level": 0
+      },
+      {
+        "temperature": 17.5,
+        "ph": 4.688313802083334,
+        "water_level": 0,
+        "update_time": "2022.12.21 12:28:45",
+        "turbidity": 4.8681640625,
+        "humidity": 29.3
+      },
+      {
+        "humidity": 29.3,
+        "turbidity": 4.7802734375,
+        "temperature": 17.4,
+        "ph": 4.694010416666666,
+        "update_time": "2022.12.21 12:29:10",
+        "water_level": 0
+      },
+      {
+        "turbidity": 4.9365234375,
+        "ph": 4.765218098958334,
+        "temperature": 17.4,
+        "water_level": 0,
+        "humidity": 29.2,
+        "update_time": "2022.12.21 12:29:31"
+      },
+      {
+        "turbidity": 4.7705078125,
+        "humidity": 29.2,
+        "ph": 4.685465494791666,
+        "temperature": 17.4,
+        "water_level": 0,
+        "update_time": "2022.12.21 12:29:53"
+      },
+      {
+        "update_time": "2022.12.21 12:30:15",
+        "temperature": 17.3,
+        "humidity": 29.5,
+        "water_level": 0,
+        "ph": 4.705403645833334,
+        "turbidity": 4.814453125
+      },
+      {
+        "update_time": "2022.12.21 12:30:39",
+        "humidity": 29.3,
+        "ph": 4.76806640625,
+        "water_level": 0,
+        "turbidity": 4.8583984375,
+        "temperature": 17.3
+      },
+      {
+        "humidity": 29.4,
+        "turbidity": 4.90234375,
+        "update_time": "2022.12.21 12:31:00",
+        "temperature": 17.3,
+        "water_level": 0,
+        "ph": 4.742431640625
+      },
+      {
+        "humidity": 29.3,
+        "turbidity": 4.7998046875,
+        "ph": 4.702555338541666,
+        "update_time": "2022.12.21 12:31:25",
+        "temperature": 17.3,
+        "water_level": 0
+      },
+      {
+        "temperature": 17.3,
+        "ph": 4.7509765625,
+        "water_level": 0,
+        "turbidity": 4.8486328125,
+        "update_time": "2022.12.21 12:31:48",
+        "humidity": 29.3
+      },
+      {
+        "update_time": "2022.12.21 12:32:10",
+        "ph": 4.748128255208334,
+        "temperature": 17.3,
+        "water_level": 0,
+        "humidity": 29.3,
+        "turbidity": 4.833984375
+      },
+      {
+        "humidity": 29.3,
+        "water_level": 0,
+        "temperature": 17.3,
+        "turbidity": 4.8193359375,
+        "update_time": "2022.12.21 12:32:31",
+        "ph": 4.73388671875
+      },
+      {
+        "ph": 4.731038411458334,
+        "humidity": 29.4,
+        "turbidity": 4.8779296875,
+        "temperature": 17.3,
+        "water_level": 0,
+        "update_time": "2022.12.21 12:32:52"
+      },
+      {
+        "update_time": "2022.12.21 12:33:14",
+        "ph": 4.756673177083334,
+        "water_level": 0,
+        "humidity": 29.3,
+        "temperature": 17.2,
+        "turbidity": 4.853515625
+      },
+      {
+        "water_level": 0,
+        "turbidity": 4.8583984375,
+        "update_time": "2022.12.21 12:33:36",
+        "temperature": 17.3,
+        "ph": 4.745279947916666,
+        "humidity": 29.1
+      },
+      {
+        "water_level": 0,
+        "temperature": 17.2,
+        "ph": 4.69970703125,
+        "turbidity": 4.7900390625,
+        "humidity": 29.1,
+        "update_time": "2022.12.21 12:33:57"
+      },
+      {
+        "ph": 4.765218098958334,
+        "humidity": 29.2,
+        "temperature": 17.2,
+        "turbidity": 4.8974609375,
+        "water_level": 0,
+        "update_time": "2022.12.21 12:34:19"
+      },
+      {
+        "humidity": 24.9,
+        "temperature": 22.1,
+        "update_time": "2022.12.22 00:15:27",
+        "turbidity": 4.9951171875,
+        "water_level": 0,
+        "ph": 4.919026692708334
+      },
+      {
+        "turbidity": 4.9951171875,
+        "temperature": 22.1,
+        "water_level": 0,
+        "ph": 4.810791015625,
+        "humidity": 24.2,
+        "update_time": "2022.12.22 00:15:51"
+      },
+      {
+        "fan": "off",
+        "water_level": 0,
+        "update_time": "2022.12.22 00:49:33",
+        "humidity": 22.2,
+        "ph": 4.805094401041666,
+        "temperature": 23.8,
+        "turbidity": 4.9951171875
+      },
+      {
+        "water_level": 0,
+        "update_time": "2022.12.22 00:49:56",
+        "fan": "off",
+        "ph": 4.770914713541666,
+        "turbidity": 4.9951171875,
+        "temperature": 23.9,
+        "humidity": 42.7
+      },
+      {
+        "temperature": 24.3,
+        "humidity": 28.4,
+        "water_level": 0,
+        "turbidity": 4.9951171875,
+        "ph": 4.639892578125,
+        "fan": "on",
+        "update_time": "2022.12.22 00:50:19"
+      },
+      {
+        "humidity": 24.2,
+        "update_time": "2022.12.22 00:50:41",
+        "turbidity": 4.9951171875,
+        "water_level": 0,
+        "fan": "on",
+        "ph": 4.6826171875,
+        "temperature": 24.5
+      },
+      {
+        "humidity": 22.9,
+        "temperature": 24.6,
+        "ph": 4.651285807291666,
+        "turbidity": 4.7021484375,
+        "water_level": 0,
+        "fan": "on",
+        "update_time": "2022.12.22 00:51:03"
+      },
+      {
+        "humidity": 22.7,
+        "update_time": "2022.12.22 00:51:25",
+        "turbidity": 4.53125,
+        "water_level": 0,
+        "temperature": 24.6,
+        "fan": "on",
+        "ph": 4.637044270833334
+      },
+      {
+        "water_level": 0,
+        "temperature": 24.6,
+        "humidity": 22.8,
+        "ph": 4.685465494791666,
+        "update_time": "2022.12.22 00:51:49",
+        "fan": "on",
+        "turbidity": 4.6630859375
+      },
+      {
+        "humidity": 22.5,
+        "fan": "on",
+        "ph": 4.696858723958334,
+        "update_time": "2022.12.22 00:52:10",
+        "temperature": 24.6,
+        "water_level": 0,
+        "turbidity": 4.7607421875
+      },
+      {
+        "humidity": 22.1,
+        "update_time": "2022.12.22 00:53:03",
+        "temperature": 24.5,
+        "turbidity": 4.9951171875,
+        "water_level": 0,
+        "fan": "off",
+        "ph": 4.847819010416666
+      },
+      {
+        "water_level": 0,
+        "temperature": 24.3,
+        "update_time": "2022.12.22 00:53:24",
+        "turbidity": 4.9951171875,
+        "ph": 4.759521484375,
+        "humidity": 22.1,
+        "fan": "off"
+      },
+      {
+        "temperature": 24.2,
+        "ph": 4.742431640625,
+        "update_time": "2022.12.22 00:53:46",
+        "fan": "off",
+        "water_level": 0,
+        "humidity": 22.1,
+        "turbidity": 4.9951171875
+      },
+      {
+        "fan": "off",
+        "temperature": 24.2,
+        "update_time": "2022.12.22 00:54:09",
+        "turbidity": 4.9951171875,
+        "humidity": 22.2,
+        "water_level": 0,
+        "ph": 4.637044270833334
+      },
+      {
+        "temperature": 24,
+        "ph": 4.634195963541666,
+        "turbidity": 4.1259765625,
+        "update_time": "2022.12.22 00:54:31",
+        "fan": "off",
+        "humidity": 22.2,
+        "water_level": 0
+      },
+      {
+        "humidity": 27.7,
+        "ph": 4.856363932291666,
+        "turbidity": 4.9951171875,
+        "fan": "off",
+        "temperature": 21.5,
+        "update_time": "2022.12.22 01:44:34",
+        "water_level": 0
+      },
+      {
+        "ph": 4.719645182291666,
+        "fan": "off",
+        "temperature": 21.4,
+        "water_level": 0,
+        "update_time": "2022.12.22 01:44:58",
+        "turbidity": 4.9951171875,
+        "humidity": 27.5
+      },
+      {
+        "fan": "off",
+        "ph": 4.66552734375,
+        "temperature": 21.5,
+        "water_level": 0,
+        "humidity": 47.5,
+        "update_time": "2022.12.22 01:45:20",
+        "turbidity": 4.9951171875
+      },
+      {
+        "fan": "off",
+        "turbidity": 4.9169921875,
+        "update_time": "2022.12.22 01:45:43",
+        "water_level": 0,
+        "ph": 4.688313802083334,
+        "humidity": 62.2,
+        "temperature": 21.9
+      },
+      {
+        "temperature": 22.3,
+        "water_level": 0,
+        "humidity": 35.9,
+        "ph": 4.708251953125,
+        "turbidity": 3.9111328125,
+        "update_time": "2022.12.22 01:46:04",
+        "fan": "off"
+      },
+      {
+        "ph": 4.702555338541666,
+        "fan": "off",
+        "update_time": "2022.12.22 01:46:28",
+        "water_level": 0,
+        "humidity": 50.3,
+        "temperature": 22.6,
+        "turbidity": 4.4091796875
+      },
+      {
+        "turbidity": 4.9951171875,
+        "fan": "off",
+        "ph": 4.842122395833334,
+        "water_level": 0,
+        "temperature": 22.7,
+        "humidity": 30,
+        "update_time": "2022.12.22 01:46:50"
+      },
+      {
+        "fan": "off",
+        "humidity": 28.3,
+        "ph": 4.78515625,
+        "temperature": 22.8,
+        "water_level": 0,
+        "turbidity": 4.9951171875,
+        "update_time": "2022.12.22 01:47:12"
+      },
+      {
+        "ph": 4.788004557291666,
+        "temperature": 22.8,
+        "humidity": 27.9,
+        "turbidity": 4.9951171875,
+        "update_time": "2022.12.22 01:47:32",
+        "water_level": 0,
+        "fan": "off"
+      },
+      {
+        "water_level": 0,
+        "update_time": "2022.12.22 01:47:56",
+        "turbidity": 4.9951171875,
+        "ph": 4.716796875,
+        "fan": "off",
+        "humidity": 27.2,
+        "temperature": 22.8
+      },
+      {
+        "ph": 4.634195963541666,
+        "turbidity": 4.0283203125,
+        "fan": "off",
+        "humidity": 27.1,
+        "water_level": 0,
+        "temperature": 22.8,
+        "update_time": "2022.12.22 01:48:19"
+      },
+      {
+        "water_level": 0,
+        "humidity": 27.4,
+        "fan": "off",
+        "turbidity": 2.94921875,
+        "temperature": 22.8,
+        "update_time": "2022.12.22 01:48:41",
+        "ph": 4.711100260416666
+      },
+      {
+        "update_time": "2022.12.22 01:49:04",
+        "humidity": 27.5,
+        "fan": "off",
+        "water_level": 0,
+        "turbidity": 3.0224609375,
+        "temperature": 22.6,
+        "ph": 4.691162109375
+      },
+      {
+        "water_level": 0,
+        "ph": 4.722493489583334,
+        "fan": "off",
+        "temperature": 22.5,
+        "humidity": 27.2,
+        "update_time": "2022.12.22 01:49:26",
+        "turbidity": 3.349609375
+      },
+      {
+        "turbidity": 3.0615234375,
+        "humidity": 27.1,
+        "temperature": 22.5,
+        "ph": 4.696858723958334,
+        "water_level": 0,
+        "update_time": "2022.12.22 01:49:49",
+        "fan": "off"
+      },
+      {
+        "water_level": 0,
+        "turbidity": 2.9150390625,
+        "fan": "off",
+        "ph": 4.679768880208334,
+        "update_time": "2022.12.22 01:50:10",
+        "humidity": 27.4,
+        "temperature": 22.3
+      },
+      {
+        "update_time": "2022.12.22 01:50:33",
+        "temperature": 22.3,
+        "ph": 4.716796875,
+        "turbidity": 3.0224609375,
+        "humidity": 27.5,
+        "water_level": 0,
+        "fan": "off"
+      },
+      {
+        "temperature": 22.3,
+        "humidity": 28,
+        "turbidity": 2.763671875,
+        "water_level": 0,
+        "ph": 4.696858723958334,
+        "update_time": "2022.12.22 01:50:56",
+        "fan": "off"
+      },
+      {
+        "ph": 4.662679036458334,
+        "turbidity": 3.1689453125,
+        "update_time": "2022.12.22 01:51:18",
+        "temperature": 22.2,
+        "humidity": 27.9,
+        "water_level": 0,
+        "fan": "off"
+      },
+      {
+        "fan": "off",
+        "humidity": 27.6,
+        "turbidity": 3.017578125,
+        "ph": 4.708251953125,
+        "update_time": "2022.12.22 01:51:40",
+        "temperature": 22,
+        "water_level": 0
+      },
+      {
+        "water_level": 0,
+        "temperature": 22,
+        "humidity": 27.7,
+        "update_time": "2022.12.22 01:52:03",
+        "ph": 4.685465494791666,
+        "fan": "off",
+        "turbidity": 4.287109375
+      },
+      {
+        "ph": 4.725341796875,
+        "water_level": 0,
+        "fan": "off",
+        "humidity": 27.3,
+        "turbidity": 4.4873046875,
+        "update_time": "2022.12.22 01:52:25",
+        "temperature": 21.9
+      },
+      {
+        "humidity": 27.3,
+        "fan": "off",
+        "turbidity": 4.6435546875,
+        "water_level": 0,
+        "temperature": 21.9,
+        "ph": 4.637044270833334,
+        "update_time": "2022.12.22 01:52:48"
+      },
+      {
+        "ph": 4.63134765625,
+        "temperature": 21.9,
+        "turbidity": 4.6728515625,
+        "humidity": 27.3,
+        "fan": "off",
+        "update_time": "2022.12.22 01:53:14",
+        "water_level": 0
+      },
+      {
+        "temperature": 21.8,
+        "ph": 4.694010416666666,
+        "water_level": 0,
+        "humidity": 27.5,
+        "turbidity": 4.2431640625,
+        "update_time": "2022.12.22 01:53:37",
+        "fan": "off"
+      },
+      {
+        "fan": "off",
+        "humidity": 27.9,
+        "ph": 4.694010416666666,
+        "update_time": "2022.12.22 01:54:01",
+        "water_level": 0,
+        "turbidity": 4.1796875,
+        "temperature": 21.8
+      },
+      {
+        "humidity": 28.2,
+        "ph": 4.696858723958334,
+        "update_time": "2022.12.22 01:54:22",
+        "water_level": 0,
+        "fan": "off",
+        "turbidity": 4.27734375,
+        "temperature": 21.7
+      },
+      {
+        "fan": "off",
+        "humidity": 28,
+        "turbidity": 4.3603515625,
+        "update_time": "2022.12.22 01:54:43",
+        "water_level": 0,
+        "temperature": 21.6,
+        "ph": 4.69970703125
+      },
+      {
+        "update_time": "2022.12.22 01:55:07",
+        "temperature": 21.6,
+        "turbidity": 4.1259765625,
+        "ph": 4.651285807291666,
+        "humidity": 28.3,
+        "fan": "off",
+        "water_level": 0
+      },
+      {
+        "update_time": "2022.12.22 01:55:28",
+        "fan": "off",
+        "ph": 4.691162109375,
+        "water_level": 0,
+        "temperature": 21.6,
+        "turbidity": 4.5361328125,
+        "humidity": 28.1
+      },
+      {
+        "water_level": 0,
+        "update_time": "2022.12.22 01:55:49",
+        "fan": "off",
+        "temperature": 21.6,
+        "turbidity": 4.1748046875,
+        "humidity": 28.2,
+        "ph": 4.642740885416666
+      },
+      {
+        "update_time": "2022.12.22 01:56:11",
+        "temperature": 21.6,
+        "ph": 4.656982421875,
+        "humidity": 28.3,
+        "fan": "off",
+        "water_level": 0,
+        "turbidity": 3.896484375
+      },
+      {
+        "temperature": 21.5,
+        "humidity": 28.2,
+        "fan": "off",
+        "ph": 4.705403645833334,
+        "water_level": 0,
+        "turbidity": 4.3408203125,
+        "update_time": "2022.12.22 01:56:33"
+      },
+      {
+        "water_level": 0,
+        "ph": 4.63134765625,
+        "update_time": "2022.12.22 01:56:54",
+        "turbidity": 4.4482421875,
+        "temperature": 21.5,
+        "fan": "off",
+        "humidity": 28.2
+      },
+      {
+        "turbidity": 4.0380859375,
+        "temperature": 21.5,
+        "humidity": 27.8,
+        "update_time": "2022.12.22 01:57:16",
+        "fan": "off",
+        "ph": 4.995930989583334,
+        "water_level": 0
+      },
+      {
+        "temperature": 21.4,
+        "update_time": "2022.12.22 01:57:37",
+        "water_level": 0,
+        "turbidity": 3.6669921875,
+        "fan": "off",
+        "ph": 4.927571614583334,
+        "humidity": 27.9
+      },
+      {
+        "fan": "off",
+        "water_level": 0,
+        "turbidity": 3.818359375,
+        "ph": 4.998779296875,
+        "humidity": 28.6,
+        "temperature": 21.4,
+        "update_time": "2022.12.22 01:58:00"
+      },
+      {
+        "temperature": 21.5,
+        "water_level": 0,
+        "humidity": 28.7,
+        "turbidity": 3.7109375,
+        "fan": "off",
+        "ph": 4.944661458333334,
+        "update_time": "2022.12.22 01:58:21"
+      },
+      {
+        "humidity": 28.9,
+        "fan": "off",
+        "water_level": 0,
+        "turbidity": 3.6376953125,
+        "temperature": 21.4,
+        "ph": 4.947509765625,
+        "update_time": "2022.12.22 01:58:45"
+      },
+      {
+        "update_time": "2022.12.22 01:59:07",
+        "turbidity": 4.0869140625,
+        "humidity": 28.7,
+        "ph": 5.010172526041666,
+        "water_level": 0,
+        "fan": "off",
+        "temperature": 21.5
+      },
+      {
+        "turbidity": 3.3984375,
+        "ph": 4.921875,
+        "humidity": 29.6,
+        "fan": "off",
+        "temperature": 21.4,
+        "water_level": 0,
+        "update_time": "2022.12.22 01:59:30"
+      },
+      {
+        "humidity": 28.9,
+        "temperature": 21.4,
+        "update_time": "2022.12.22 01:59:51",
+        "water_level": 0,
+        "ph": 5.00732421875,
+        "turbidity": 3.7158203125,
+        "fan": "off"
+      },
+      {
+        "water_level": 0,
+        "humidity": 28.9,
+        "temperature": 21.4,
+        "ph": 4.981689453125,
+        "turbidity": 3.9013671875,
+        "update_time": "2022.12.22 02:00:13",
+        "fan": "off"
+      },
+      {
+        "update_time": "2022.12.22 02:00:36",
+        "temperature": 21.4,
+        "fan": "off",
+        "turbidity": 4.150390625,
+        "water_level": 0,
+        "ph": 4.975992838541666,
+        "humidity": 29
+      },
+      {
+        "fan": "off",
+        "water_level": 0,
+        "temperature": 21.3,
+        "ph": 5.0244140625,
+        "turbidity": 3.45703125,
+        "humidity": 28.9,
+        "update_time": "2022.12.22 02:00:56"
+      },
+      {
+        "turbidity": 4.31640625,
+        "humidity": 29,
+        "water_level": 0,
+        "ph": 4.987386067708334,
+        "fan": "off",
+        "temperature": 21.3,
+        "update_time": "2022.12.22 02:01:18"
+      },
+      {
+        "update_time": "2022.12.22 02:01:39",
+        "fan": "off",
+        "water_level": 0,
+        "humidity": 29.1,
+        "temperature": 21.3,
+        "ph": 4.990234375,
+        "turbidity": 3.8232421875
+      },
+      {
+        "ph": 4.947509765625,
+        "water_level": 0,
+        "temperature": 21.3,
+        "fan": "off",
+        "humidity": 28.7,
+        "turbidity": 4.150390625,
+        "update_time": "2022.12.22 02:02:00"
+      },
+      {
+        "ph": 4.990234375,
+        "humidity": 28.7,
+        "fan": "off",
+        "turbidity": 4.3798828125,
+        "update_time": "2022.12.22 02:02:23",
+        "water_level": 0,
+        "temperature": 21.3
+      },
+      {
+        "humidity": 29,
+        "turbidity": 4.1748046875,
+        "temperature": 21.3,
+        "ph": 4.921875,
+        "fan": "off",
+        "water_level": 0,
+        "update_time": "2022.12.22 02:02:48"
+      },
+      {
+        "turbidity": 4.1455078125,
+        "update_time": "2022.12.22 02:03:09",
+        "humidity": 30,
+        "temperature": 21.3,
+        "ph": 5.004475911458334,
+        "water_level": 0,
+        "fan": "off"
+      },
+      {
+        "temperature": 21.2,
+        "water_level": 0,
+        "ph": 4.953206380208334,
+        "fan": "off",
+        "update_time": "2022.12.22 02:03:32",
+        "turbidity": 3.9501953125,
+        "humidity": 29.7
+      },
+      {
+        "temperature": 21.2,
+        "update_time": "2022.12.22 02:03:54",
+        "water_level": 0,
+        "turbidity": 4.0087890625,
+        "fan": "off",
+        "ph": 4.950358072916666,
+        "humidity": 28.9
+      },
+      {
+        "temperature": 21.3,
+        "fan": "off",
+        "update_time": "2022.12.22 02:04:17",
+        "ph": 4.933268229166666,
+        "water_level": 0,
+        "turbidity": 3.583984375,
+        "humidity": 28.8
+      },
+      {
+        "ph": 4.967447916666666,
+        "water_level": 0,
+        "update_time": "2022.12.22 02:04:38",
+        "temperature": 21.2,
+        "humidity": 28.4,
+        "fan": "off",
+        "turbidity": 3.7646484375
+      },
+      {
+        "turbidity": 3.6572265625,
+        "ph": 4.936116536458334,
+        "humidity": 28.4,
+        "water_level": 0,
+        "temperature": 21.2,
+        "update_time": "2022.12.22 02:05:05",
+        "fan": "off"
+      },
+      {
+        "temperature": 21.1,
+        "water_level": 0,
+        "ph": 5.021565755208334,
+        "humidity": 28.5,
+        "fan": "off",
+        "turbidity": 3.6474609375,
+        "update_time": "2022.12.22 02:05:27"
+      },
+      {
+        "fan": "off",
+        "turbidity": 4.9951171875,
+        "ph": 11.968587239583332,
+        "update_time": "2022.12.23 02:09:03",
+        "humidity": 23.7,
+        "temperature": 23.1,
+        "water_level": 1
+      },
+      {
+        "ph": 11.951497395833332,
+        "temperature": 23.1,
+        "fan": "off",
+        "water_level": 1,
+        "humidity": 23.5,
+        "update_time": "2022.12.23 02:09:24",
+        "turbidity": 4.9951171875
+      },
+      {
+        "humidity": 23.3,
+        "fan": "off",
+        "ph": 11.977132161458332,
+        "water_level": 1,
+        "turbidity": 4.9951171875,
+        "temperature": 23.1,
+        "update_time": "2022.12.23 02:09:45"
+      },
+      {
+        "fan": "off",
+        "humidity": 23.3,
+        "temperature": 23.2,
+        "ph": 11.960042317708332,
+        "update_time": "2022.12.23 02:10:05",
+        "turbidity": 4.9951171875,
+        "water_level": 1
+      },
+      {
+        "temperature": 23.2,
+        "fan": "off",
+        "water_level": 1,
+        "update_time": "2022.12.23 02:10:27",
+        "humidity": 23.3,
+        "ph": 11.891682942708332,
+        "turbidity": 4.9951171875
+      }
+    ],
+    "id": "steve",
+    "d000001": {
+      "sensor": [],
+      "manufacture_date": "20221213",
+      "id": "d000001",
+      "is_running": false
+    },
+    "is_running": true,
+    "growth": 1,
+    "manufacture_date": "2022-12-23"
+  }
