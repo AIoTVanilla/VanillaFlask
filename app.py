@@ -3,11 +3,13 @@ from database import *
 import numpy as np
 import datetime
 import random
+import json
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-
-app.config['SECRET_KEY'] = 'aiot'
+app.config['SECRET_KEY'] = 'vanilla'
 DID = 'd000001'
+socketio = SocketIO(app)
 
 @app.before_request
 def before_request():
@@ -50,6 +52,94 @@ def register():
         if len(sId) > 0:
             create_device(sId)
         return render_template('index.html')
+
+@app.route('/test')
+def test():
+    return render_template('test.html',**values)
+
+
+
+def get_snack_count(id):
+    snack_count = random.randint(0, 5)
+    return snack_count
+
+@app.route('/hello', methods=['POST', 'GET'])
+def hello():
+    return "hello, vanilla"
+
+@app.route('/request_snack_count', methods=['GET'])
+def request_snack_count():
+    snack_count = random.randint(0, 10)
+    data = {
+        "success": True,
+        "result": snack_count
+    }
+    return data
+
+@app.route('/request_snack_list', methods=['GET'])
+def request_snack_list():
+    data = {
+        "success": True,
+        "result": [
+            {"name": "s1", "count": get_snack_count("s1")},
+            {"name": "s2", "count": get_snack_count("s2")},
+            {"name": "s3", "count": get_snack_count("s3")},
+            {"name": "s4", "count": get_snack_count("s4")},
+            {"name": "s5", "count": get_snack_count("s5")},
+        ]
+    }
+    return data
+
+@app.route('/request_favorite_snack', methods=['GET'])
+def request_favorite_snack():
+    snacks = ["s1", "s2", "s3", "s4", "s5"]
+    print(random.sample(snacks, 3))
+    data = {
+        "success": True,
+        "result": random.sample(snacks, 3)
+    }
+    return data
+
+@app.route('/send', methods=['POST'])
+def send():
+    jsonobj_content = request.json
+    socketio.emit('server_response',  {'data':str(jsonobj_content)}, broadcast=True)
+    return '', 200
+
+@socketio.on('my event', namespace='/hello')
+def hello():
+    emit('my response', {'data': 'got it!'})
+    return "11"
+
+@socketio.on('connected_event')
+def connected(msg):
+    emit('server_response', {'data': msg['data']})
+
+@socketio.on('broadcast_event')
+def broadcast(msg):
+    emit('server_response', {'data': msg['data']}, broadcast=True)
+
+values = {
+    'slider1': 25,
+    'slider2': 0,
+}
+@socketio.on('connect')
+def test_connect():
+    emit('after connect',  {'data':'Lets dance'})
+
+@socketio.on('slider')
+def value_changed(message):
+    values[message['who']] = message['data']
+    print("value_changed")
+    emit('update value', message, broadcast=True)
+
+@socketio.on('message')
+def message(data):
+    print(data)  # {'from': 'client'}
+    emit('response', {'from': 'server'})
+
+
+
 
 
 @app.teardown_request
@@ -125,4 +215,5 @@ def get_chart(device, type):
         return [sensor['turbidity'] for sensor in sensors]
 
 if __name__ == '__main__':
-    app.run('0.0.0.0',9999, debug=True)
+    socketio.init_app(app, cors_allowed_origins="*") 
+    socketio.run(app, '0.0.0.0', 9999, debug=True)

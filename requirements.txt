@@ -1,0 +1,6 @@
+flask
+firebase_admin
+numpy
+flask-socketio
+gevent
+eventlet 
