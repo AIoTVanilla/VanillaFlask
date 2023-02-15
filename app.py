@@ -9,7 +9,8 @@ from flask_socketio import SocketIO, emit
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vanilla'
 DID = 'd000001'
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins=['192.168.50.151:9999'])
+socketio.init_app(app, cors_allowed_origins="*") 
 
 @app.before_request
 def before_request():
@@ -56,6 +57,10 @@ def register():
 @app.route('/test')
 def test():
     return render_template('test.html',**values)
+
+@app.route('/chat')
+def chat():
+    return render_template('chat.html')
 
 
 
@@ -138,7 +143,18 @@ def message(data):
     print(data)  # {'from': 'client'}
     emit('response', {'from': 'server'})
 
+def messageReceived(methods=['GET', 'POST']):
+    print('message was received!!!')
 
+@socketio.on('my event')
+def handle_my_custom_event(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json))
+    socketio.emit('my response', json, callback=messageReceived)
+
+@socketio.on('my event')
+def handle_my_custom_event(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json))
+    socketio.emit('my response', json, callback=messageReceived)
 
 
 
@@ -215,5 +231,5 @@ def get_chart(device, type):
         return [sensor['turbidity'] for sensor in sensors]
 
 if __name__ == '__main__':
-    socketio.init_app(app, cors_allowed_origins="*") 
+    # socketio.init_app(app, cors_allowed_origins="*") 
     socketio.run(app, '0.0.0.0', 9999, debug=True)
