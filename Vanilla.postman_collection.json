@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "47f0855d-e8ac-4b00-8347-745a35ddff2e",
+		"_postman_id": "ed2985e5-7aeb-40c4-8db3-bf5e37ae6506",
 		"name": "Vanilla",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "2105749"
@@ -15,18 +15,74 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9999/hello",
-					"protocol": "http",
+					"raw": "{{BASE_PROTOCOL}}://{{BASE_URL}}/hello",
+					"protocol": "{{BASE_PROTOCOL}}",
 					"host": [
-						"localhost"
+						"{{BASE_URL}}"
 					],
-					"port": "9999",
 					"path": [
 						"hello"
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "hello",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_PROTOCOL}}://{{BASE_URL}}/hello",
+							"protocol": "{{BASE_PROTOCOL}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"hello"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 15 Feb 2023 17:14:47 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "14"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "session=eyJfcGVybWFuZW50Ijp0cnVlfQ.Y-0TBw.mUtI7QFzzsRVmKBCzor8A_6tO2Q; Expires=Wed, 15 Feb 2023 17:19:47 GMT; HttpOnly; Path=/"
+						},
+						{
+							"key": "X-Clacks-Overhead",
+							"value": "GNU Terry Pratchett"
+						},
+						{
+							"key": "Server",
+							"value": "PythonAnywhere"
+						}
+					],
+					"cookie": [],
+					"body": "hello, vanilla"
+				}
+			]
 		},
 		{
 			"name": "request_snack_count",
@@ -37,18 +93,66 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9999/request_snack_count",
-					"protocol": "http",
+					"raw": "{{BASE_PROTOCOL}}://{{BASE_URL}}/request_snack_count",
+					"protocol": "{{BASE_PROTOCOL}}",
 					"host": [
-						"localhost"
+						"{{BASE_URL}}"
 					],
-					"port": "9999",
 					"path": [
 						"request_snack_count"
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "request_snack_count",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_PROTOCOL}}://{{BASE_URL}}/request_snack_count",
+							"protocol": "{{BASE_PROTOCOL}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"request_snack_count"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "28"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "session=eyJfcGVybWFuZW50Ijp0cnVlfQ.Y-0Oeg.Eh7ftTI_ckUoZArD1f1K5T6vuWA; Expires=Wed, 15 Feb 2023 17:00:22 GMT; HttpOnly; Path=/"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 15 Feb 2023 16:55:22 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"result\": 1,\n    \"success\": true\n}"
+				}
+			]
 		},
 		{
 			"name": "request_snack_list",
@@ -59,18 +163,66 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9999/request_snack_list",
-					"protocol": "http",
+					"raw": "{{BASE_PROTOCOL}}://{{BASE_URL}}/request_snack_list",
+					"protocol": "{{BASE_PROTOCOL}}",
 					"host": [
-						"localhost"
+						"{{BASE_URL}}"
 					],
-					"port": "9999",
 					"path": [
 						"request_snack_list"
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "request_snack_list",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_PROTOCOL}}://{{BASE_URL}}/request_snack_list",
+							"protocol": "{{BASE_PROTOCOL}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"request_snack_list"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "185"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "session=eyJfcGVybWFuZW50Ijp0cnVlfQ.Y-0OfA.wkRCi3gzpGYo_H5o5Lhp36l8Oyo; Expires=Wed, 15 Feb 2023 17:00:24 GMT; HttpOnly; Path=/"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 15 Feb 2023 16:55:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"result\": [\n        {\n            \"count\": 3,\n            \"name\": \"chicken_legs\"\n        },\n        {\n            \"count\": 0,\n            \"name\": \"kancho\"\n        },\n        {\n            \"count\": 2,\n            \"name\": \"rollpoly\"\n        },\n        {\n            \"count\": 3,\n            \"name\": \"ramen_snack\"\n        },\n        {\n            \"count\": 5,\n            \"name\": \"whale_food\"\n        }\n    ],\n    \"success\": true\n}"
+				}
+			]
 		},
 		{
 			"name": "request_favorite_snack",
@@ -81,18 +233,66 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9999/request_favorite_snack",
-					"protocol": "http",
+					"raw": "{{BASE_PROTOCOL}}://{{BASE_URL}}/request_favorite_snack",
+					"protocol": "{{BASE_PROTOCOL}}",
 					"host": [
-						"localhost"
+						"{{BASE_URL}}"
 					],
-					"port": "9999",
 					"path": [
 						"request_favorite_snack"
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "request_favorite_snack",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_PROTOCOL}}://{{BASE_URL}}/request_favorite_snack",
+							"protocol": "{{BASE_PROTOCOL}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"request_favorite_snack"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "61"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "session=eyJfcGVybWFuZW50Ijp0cnVlfQ.Y-0Ofg.WQEXqeCctTmzCeWl0adA9t6a0eY; Expires=Wed, 15 Feb 2023 17:00:26 GMT; HttpOnly; Path=/"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 15 Feb 2023 16:55:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"result\": [\n        \"kancho\",\n        \"whale_food\",\n        \"rollpoly\"\n    ],\n    \"success\": true\n}"
+				}
+			]
 		}
 	]
 }
