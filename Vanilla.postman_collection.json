@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6a5909aa-3f85-4e32-97a2-1528c65e6c18",
+		"_postman_id": "47f0855d-e8ac-4b00-8347-745a35ddff2e",
 		"name": "Vanilla",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "25864065"
+		"_exporter_id": "2105749"
 	},
 	"item": [
 		{
@@ -89,34 +89,6 @@
 					"port": "9999",
 					"path": [
 						"request_favorite_snack"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "send",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"JB\",\r\n    \"from\": \"Tainan\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:9999/send",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9999",
-					"path": [
-						"send"
 					]
 				}
 			},
