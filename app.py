@@ -121,7 +121,7 @@ def ping_in_intervals():
         socketio.sleep(10)
         socketio.emit('snack', {
             'success': True,
-            'result': str(snack_status).lower()
+            'result': bool(snack_status)
         })
         snack_status = snack_status == False
 
