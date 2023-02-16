@@ -32,72 +32,124 @@
     </symbol>
 
   </svg>
-
+  
+  <video id="video" width="0" height="0" autoplay style="background-color: black"></video>
   <section>
-    <!-- <div class="empty_container"/> -->
-    <div class="container video-container">
-      <img width="384" height="216" src="{{ url_for('video') }}" class="corner"></img>
+
+      <!-- <canvas id="canvas" width="416" height="416" style="background-color: black"></canvas> -->
+      <!-- <img id="image" src="" width="416" height="416" style="background-color: black"></img> -->
+
+      <div class="video-container">
+        <canvas id="canvas" width="384" height="216" style="background-color: black"></canvas>
+        <img id="image" src="" width="384" height="216" style="background-color: black"></img>
+      </div>
+      
+      <!-- <div class="video-container">
+        <img id="image" width="384" height="216" src="{{ url_for('video') }}" class="corner"></img>
+      </div> -->
+
+    <div class="container" id="icon-grid">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 py-5">
+        <div class="col d-flex align-items-start">
+          <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#temp"/></svg>
+          <div>
+            <h4 class="fw-bold mb-0">현재 온도</h4>
+            <p>현재 온도는 <strong>{{ m.temp }}</strong> 입니다</p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#humidity"/></svg>
+          <div>
+            <h4 class="fw-bold mb-0">현재 습도</h4>
+            <p>현재 습도는 <strong>{{ m.humidity }}</strong> 입니다</p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#water-level"/></svg>
+          <div>
+            <h4 class="fw-bold mb-0">현재 수위</h4>
+            <p>현재 수위는 <strong>{{ m.water_level }}</strong> 입니다</p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#ph"/></svg>
+          <div>
+            <h4 class="fw-bold mb-0">현재 ph</h4>
+            <p>현재 pH는 <strong>{{ m.ph }}</strong> 입니다</p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#turbidity"/></svg>
+          <div>
+            <h4 class="fw-bold mb-0">현재 탁도</h4>
+            <p>현재 탁도는 <strong>{{ m.turbidity }}</strong> 입니다</p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#fan"/></svg>
+          <div>
+            <h4 class="fw-bold mb-0">팬 회전</h4>
+            <p>현재 팬은 <strong>{{ m.fan }}</strong> 입니다</p>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="container">
+      <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+          <h2 class="featurette-heading">식물 성장단계 <span class="text-muted"> {{ growth }} 단계</span></h2>
+          <p class="lead">현재 작물의 성장 단계는 {{ growth }} 단계 입니다.</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+          <img src="/../static/growth.jpg" height="400" class="d-block w-100" alt="...">
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      const context = canvas.getContext('2d');
+      const image = document.getElementById('image');
+      // console.log("Hello", video, canvas, image)
+
+      // Get access to the camera!
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+            video.srcObject = stream;
+            video.play();
+            window.setInterval(function() {
+                context.drawImage(video, 0, 0, 416, 416); // better use size because camera may gives data in different size then <video> is displaying
+                canvas.toBlob(upload, "image/jpeg");
+            }, 100);
+        });
+      }
+
+      function upload(file) {
+        const formdata =  new FormData();
+        formdata.append("snap", file);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "{{ url_for('upload') }}", true);
+        xhr.responseType = 'blob';
+        xhr.onload = function() {
+
+            if(this.status = 200) {
+                //console.log(this.response);
+            } else {
+                console.error(xhr);
+            }
+
+            image.src = URL.createObjectURL(this.response); // blob
+        };
+        // send form in AJAX
+        xhr.send(formdata);
+        //image.src = URL.createObjectURL(file);
+      }
+    </script>
+
   </section>
-
-  <div class="container" id="icon-grid">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 py-5">
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#temp"/></svg>
-        <div>
-          <h4 class="fw-bold mb-0">현재 온도</h4>
-          <p>현재 온도는 <strong>{{ m.temp }}</strong> 입니다</p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#humidity"/></svg>
-        <div>
-          <h4 class="fw-bold mb-0">현재 습도</h4>
-          <p>현재 습도는 <strong>{{ m.humidity }}</strong> 입니다</p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#water-level"/></svg>
-        <div>
-          <h4 class="fw-bold mb-0">현재 수위</h4>
-          <p>현재 수위는 <strong>{{ m.water_level }}</strong> 입니다</p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#ph"/></svg>
-        <div>
-          <h4 class="fw-bold mb-0">현재 ph</h4>
-          <p>현재 pH는 <strong>{{ m.ph }}</strong> 입니다</p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#turbidity"/></svg>
-        <div>
-          <h4 class="fw-bold mb-0">현재 탁도</h4>
-          <p>현재 탁도는 <strong>{{ m.turbidity }}</strong> 입니다</p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#fan"/></svg>
-        <div>
-          <h4 class="fw-bold mb-0">팬 회전</h4>
-          <p>현재 팬은 <strong>{{ m.fan }}</strong> 입니다</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="row featurette">
-      <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading">식물 성장단계 <span class="text-muted"> {{ growth }} 단계</span></h2>
-        <p class="lead">현재 작물의 성장 단계는 {{ growth }} 단계 입니다.</p>
-      </div>
-      <div class="col-md-5 order-md-1">
-        <img src="/../static/growth.jpg" height="400" class="d-block w-100" alt="...">
-      </div>
-    </div>
-  </div>
 
   
 </main>

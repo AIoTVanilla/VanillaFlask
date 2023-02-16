@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, session, Response
+from flask import Flask, request, render_template, session, Response, make_response, redirect, url_for
 from database import *
 import numpy as np
 import datetime
@@ -68,6 +68,40 @@ def before_request():
 def heavy_func():
     time.sleep(20)
     print('Hi!')
+
+def send_file_data(data, mimetype='image/jpeg', filename='output.jpg'):
+    response = make_response(data)
+    response.headers.set('Content-Type', mimetype)
+    response.headers.set('Content-Disposition', 'attachment', filename=filename)
+
+    return response
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        fs = request.files.get('snap')
+        if fs:
+            img = cv2.imdecode(np.frombuffer(fs.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+            # img = detect_realtime_image(yolo, img)
+            results = model(img, size=640)
+
+            print("--" * 20)
+            targets = results.pandas().xyxy[0]
+            if targets.empty == False:
+                print(targets[['name']])
+            # results.print()  # print results to screen
+
+            # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            # ret, buf = cv2.imencode('.jpg', img)
+            img = np.squeeze(results.render()) #RGB
+            img_BGR = cv2.cvtColor(img, cv2.COLOR_RGB2RGBA) #BGR
+            frame = cv2.imencode('.jpg', img_BGR)[1].tobytes()
+
+            return send_file_data(frame)
+        else:
+            return 'You forgot Snap!'
+
+    return redirect(url_for('index'))
 
 @app.route('/method', methods=['GET'])
 def get_method(): 
