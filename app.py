@@ -24,10 +24,18 @@ def index():
 
 @app.route("/monitor/", methods=['POST', 'GET'])
 def monitor():
-    if 'd' not in session:
-        session['d'] = get_device(DID)
-    device = session['d']
-    m = get_monitor(device['sensor'][-1])
+    # if 'd' not in session:
+    #     session['d'] = get_device(DID)
+    # device = session['d']
+    # m = get_monitor(device['sensor'][-1])
+    m = {
+        "temp": 20,
+        "humidity": 10,
+        "water_level": 20,
+        "ph": 7,
+        "turbidity": 5,
+        "fan": True
+    }
     value = random.randrange(0, 4)
     print(value)
     g = get_growth(value)
@@ -37,12 +45,7 @@ def monitor():
 
 @app.route("/board/<type>", methods=['POST', 'GET'])
 def board(type = 'temp'):
-    if 'd' not in session:
-        session['d'] = get_device(DID)
-    device = session['d']
-    sensors, times = get_board(device)
-    values = get_chart(device, type)
-    return render_template('board.html', sensors = sensors , times = times, values = values)
+    return render_template('board.html')
 
 @app.route("/register", methods=['POST', 'GET'])
 def register():
@@ -202,4 +205,4 @@ if __name__ == '__main__':
 
     # app.run('0.0.0.0', 9999, debug=False)
     thread = socketio.start_background_task(ping_in_intervals)
-    eventlet.wsgi.server(eventlet.listen(('', 9999)), app)
+    eventlet.wsgi.server(eventlet.listen(('', 5000)), app)

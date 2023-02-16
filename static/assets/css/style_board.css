@@ -28,6 +28,10 @@ a:hover {
   text-decoration: none;
 }
 
+.empty_container {
+  height: 20px;
+}
+
 /* h1,
 h2,
 h3,
@@ -431,18 +435,14 @@ h6 {
 }
 
 .dashboard .sales-card .card-icon {
-  color: #4154f1;
-  background: #f6f6fe;
+  color: #ff771d;
+  background: #ffecdf;
+  /* color: #4154f1; */
 }
 
 .dashboard .revenue-card .card-icon {
-  color: #2eca6a;
-  background: #e0f8e9;
-}
-
-.dashboard .customers-card .card-icon {
-  color: #ff771d;
-  background: #ffecdf;
+  color: #4154f1;
+  background: #f6f6fe;
 }
 
 /* Activity */

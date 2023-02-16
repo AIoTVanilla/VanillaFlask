@@ -8,7 +8,7 @@ import socket
 # Use a service account.
 # /Users/suyoung/Documents/dev/aiot/AIoTClass/webapp/aiot-nuguna-03687aeaa9e6.json
 
-json_path = os.path.join(os.path.dirname(__file__), 'aiot-converea-firebase-adminsdk-xwmef-81c44db433.json')
+json_path = os.path.join(os.path.dirname(__file__), 'vanilla-3a108-firebase-adminsdk-ysr0t-9ce51811c0.json')
 print(json_path)
 cred = credentials.Certificate(json_path)
 app = firebase_admin.initialize_app(cred)
@@ -38,6 +38,7 @@ def upload_sensor(d_id, sensor):
     doc_ref = db.collection('mdevice').document(d_id)
     sensor['update_time'] = datetime.now().strftime("%Y.%m.%d %H:%M:%S")
     doc_ref.update({'sensor': firestore.ArrayUnion([sensor])})
+
 
 
 
