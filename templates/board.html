@@ -22,7 +22,7 @@
           <div class="card info-card sales-card">
 
             <div class="card-body">
-              <h5 class="card-title">Snack <span>| Today</span></h5>
+              <h5 class="card-title">간식 <span>| Today</span></h5>
 
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -44,7 +44,7 @@
           <div class="card info-card revenue-card">
 
             <div class="card-body">
-              <h5 class="card-title">Speaker <span>| Today</span></h5>
+              <h5 class="card-title">AI 스피커 <span>| Today</span></h5>
 
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -67,7 +67,7 @@
           <div class="card">
 
             <div class="card-body">
-              <h5 class="card-title">History <span>/ Today</span></h5>
+              <h5 class="card-title">현황 <span>| Today</span></h5>
 
               <!-- Line Chart -->
               <div id="reportsChart"></div>
@@ -76,10 +76,10 @@
                 document.addEventListener("DOMContentLoaded", () => {
                   new ApexCharts(document.querySelector("#reportsChart"), {
                     series: [{
-                      name: 'Snack',
+                      name: '간식',
                       data: [31, 40, 28, 51, 42, 82, 56],
                     }, {
-                      name: 'Speaker',
+                      name: '스피커',
                       data: [5, 22, 35, 12, 74, 42, 51]
                     }],
                     chart: {
@@ -88,6 +88,7 @@
                       toolbar: {
                         show: false
                       },
+                      fontFamily: 'Gowun Dodum'
                     },
                     markers: {
                       size: 4
@@ -133,50 +134,50 @@
           <div class="card top-selling overflow-auto">
 
             <div class="card-body pb-0">
-              <h5 class="card-title">Top Selling <span>| Today</span></h5>
+              <h5 class="card-title">간식 목록 <span>| Today</span></h5>
 
               <table class="table table-borderless">
                 <thead>
                   <tr>
-                    <th scope="col">Preview</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Incoming</th>
-                    <th scope="col">Outgoing</th>
-                    <th scope="col">Count</th>
+                    <th scope="col">이미지</th>
+                    <th scope="col">상품명</th>
+                    <th scope="col">입고</th>
+                    <th scope="col">출고</th>
+                    <th scope="col">개수</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row"><a href="#"><img src="/static/assets/img/snack/s1.jpg" alt=""></a></th>
-                    <td><a href="#" class="text-primary fw-bold">닭다리</a></td>
+                    <th scope="row"><img src="/static/assets/img/snack/s1.jpg" alt=""></th>
+                    <td><div href="#" class="text-primary fw-bold">닭다리</div></td>
                     <td>+3</td>
                     <td>-2</td>
                     <td class="fw-bold">20</td>
                   </tr>
                   <tr>
-                    <th scope="row"><a href="#"><img src="/static/assets/img/snack/s2.jpg" alt=""></a></th>
-                    <td><a href="#" class="text-primary fw-bold">칸쵸</a></td>
+                    <th scope="row"><img src="/static/assets/img/snack/s2.jpg" alt=""></th>
+                    <td><div href="#" class="text-primary fw-bold">칸쵸</div></td>
                     <td>+3</td>
                     <td>-2</td>
                     <td class="fw-bold">20</td>
                   </tr>
                   <tr>
-                    <th scope="row"><a href="#"><img src="/static/assets/img/snack/s3.jpg" alt=""></a></th>
-                    <td><a href="#" class="text-primary fw-bold">롤리폴리</a></td>
+                    <th scope="row"><img src="/static/assets/img/snack/s3.jpg" alt=""></th>
+                    <td><div href="#" class="text-primary fw-bold">롤리폴리</div></td>
                     <td>+3</td>
                     <td>-2</td>
                     <td class="fw-bold">20</td>
                   </tr>
                   <tr>
-                    <th scope="row"><a href="#"><img src="/static/assets/img/snack/s4.jpg" alt=""></a></th>
-                    <td><a href="#" class="text-primary fw-bold">쫄병 안성탕면</a></td>
+                    <th scope="row"><img src="/static/assets/img/snack/s4.jpg" alt=""></th>
+                    <td><div href="#" class="text-primary fw-bold">쫄병 안성탕면</div></td>
                     <td>+3</td>
                     <td>-2</td>
                     <td class="fw-bold">20</td>
                   </tr>
                   <tr>
-                    <th scope="row"><a href="#"><img src="/static/assets/img/snack/s5.jpg" alt=""></a></th>
-                    <td><a href="#" class="text-primary fw-bold">고래밥</a></td>
+                    <th scope="row"><img src="/static/assets/img/snack/s5.jpg" alt=""></th>
+                    <td><div href="#" class="text-primary fw-bold">고래밥</div></td>
                     <td>+3</td>
                     <td>-2</td>
                     <td class="fw-bold">20</td>
@@ -197,21 +198,8 @@
 
       <!-- Recent Activity -->
       <div class="card">
-        <div class="filter">
-          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-            <li class="dropdown-header text-start">
-              <h6>Filter</h6>
-            </li>
-
-            <li><a class="dropdown-item" href="#">Today</a></li>
-            <li><a class="dropdown-item" href="#">This Month</a></li>
-            <li><a class="dropdown-item" href="#">This Year</a></li>
-          </ul>
-        </div>
-
         <div class="card-body">
-          <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+          <h5 class="card-title">최근 활동 <span>| Today</span></h5>
 
           <div class="activity">
 
@@ -219,7 +207,7 @@
               <div class="activite-label">32 min</div>
               <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
               <div class="activity-content">
-                Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                칸쵸 <a href="#" class="fw-bold text-dark">1개</a> 입고
               </div>
             </div><!-- End activity item-->
 
@@ -227,7 +215,7 @@
               <div class="activite-label">56 min</div>
               <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
               <div class="activity-content">
-                Voluptatem blanditiis blanditiis eveniet
+                롤리폴리 <a href="#" class="fw-bold text-dark">2개</a> 입고
               </div>
             </div><!-- End activity item-->
 
@@ -235,7 +223,7 @@
               <div class="activite-label">2 hrs</div>
               <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
               <div class="activity-content">
-                Voluptates corrupti molestias voluptatem
+                고래밥 <a href="#" class="fw-bold text-dark">1개</a> 입고
               </div>
             </div><!-- End activity item-->
 
@@ -243,7 +231,7 @@
               <div class="activite-label">1 day</div>
               <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
               <div class="activity-content">
-                Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
+                닭다리 <a href="#" class="fw-bold text-dark">1개</a> 입고
               </div>
             </div><!-- End activity item-->
 
@@ -251,7 +239,7 @@
               <div class="activite-label">2 days</div>
               <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
               <div class="activity-content">
-                Est sit eum reiciendis exercitationem
+                칸쵸 <a href="#" class="fw-bold text-dark">1개</a> 출고
               </div>
             </div><!-- End activity item-->
 
@@ -259,7 +247,7 @@
               <div class="activite-label">4 weeks</div>
               <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
               <div class="activity-content">
-                Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
+                칸쵸 <a href="#" class="fw-bold text-dark">3개</a> 입고
               </div>
             </div><!-- End activity item-->
 
@@ -270,21 +258,9 @@
 
       <!-- Website Traffic -->
       <div class="card">
-        <div class="filter">
-          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-            <li class="dropdown-header text-start">
-              <h6>Filter</h6>
-            </li>
-
-            <li><a class="dropdown-item" href="#">Today</a></li>
-            <li><a class="dropdown-item" href="#">This Month</a></li>
-            <li><a class="dropdown-item" href="#">This Year</a></li>
-          </ul>
-        </div>
-
+        
         <div class="card-body pb-0">
-          <h5 class="card-title">Website Traffic <span>| Today</span></h5>
+          <h5 class="card-title">간식 분포 <span>| Today</span></h5>
 
           <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
@@ -298,8 +274,11 @@
                   top: '5%',
                   left: 'center'
                 },
+                textStyle: {
+                  fontFamily: 'Gowun Dodum',
+                },
                 series: [{
-                  name: 'Access From',
+                  // name: 'Access From',
                   type: 'pie',
                   radius: ['40%', '70%'],
                   avoidLabelOverlap: false,
@@ -319,23 +298,23 @@
                   },
                   data: [{
                       value: 1048,
-                      name: 'Search Engine'
+                      name: '닭다리'
                     },
                     {
                       value: 735,
-                      name: 'Direct'
+                      name: '칸쵸'
                     },
                     {
                       value: 580,
-                      name: 'Email'
+                      name: '롤리폴리'
                     },
                     {
                       value: 484,
-                      name: 'Union Ads'
+                      name: '쫄병 안성탕면'
                     },
                     {
                       value: 300,
-                      name: 'Video Ads'
+                      name: '고래밥'
                     }
                   ]
                 }]
