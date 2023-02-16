@@ -1,10 +1,20 @@
-from flask import Flask, request, render_template, session
+from flask import Flask, request, render_template, session, Response
 from database import *
 import numpy as np
 import datetime
 import random
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 import eventlet
+import torch
+import cv2
+from PIL import Image
+import io
+from io import StringIO
+import time
+import threading
+import base64
+import imutils
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vanilla'
@@ -12,15 +22,95 @@ DID = 'd000001'
 socketio = SocketIO(app, ping_in_intervals=2000)
 socketio.init_app(app, cors_allowed_origins="*")
 
+model = torch.hub.load("ultralytics/yolov5", "yolov5s", pretrained=True, force_reload=False)
+# model = torch.hub.load("ultralytics/yolov5", "custom", path = "./best_damage.pt" , force_reload=True)
+model.eval()
+model.conf = 0.6  # confidence threshold (0-1)
+model.iou = 0.45  # NMS IoU threshold (0-1) 
+
+def capture_camera():
+    print("capture_camera")
+    
+def gen():
+    print("gen")
+    cap=cv2.VideoCapture(0)
+    while(cap.isOpened()):
+        # Capture frame-by-fram ## read the camera frame
+        success, frame = cap.read()
+        if success == True:
+            ret, buffer=cv2.imencode('.jpg', frame)
+            frame=buffer.tobytes()
+            
+            img = Image.open(io.BytesIO(frame))
+            results = model(img, size=640)
+
+            print("--" * 20)
+            targets = results.pandas().xyxy[0]
+            if targets.empty == False:
+                print(targets[['name']])
+            # results.print()  # print results to screen
+
+            img = np.squeeze(results.render()) #RGB
+            img_BGR = cv2.cvtColor(img, cv2.COLOR_RGB2BGR) #BGR
+        else:
+            break
+
+        frame = cv2.imencode('.jpg', img_BGR)[1].tobytes()
+        yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+
 @app.before_request
 def before_request():
     session.permanent = True
     app.permanent_session_lifetime = datetime.timedelta(minutes=5)
     session.modified = True
 
+def heavy_func():
+    time.sleep(20)
+    print('Hi!')
+
+@app.route('/method', methods=['GET'])
+def get_method(): 
+    thread = threading.Thread(target=heavy_func)
+    thread.daemon = True
+    thread.start()
+    return "work is in progress"
+
 @app.route("/", methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
+
+@socketio.on('image')
+def image(data_image):
+    sbuf = StringIO()
+    sbuf.write(data_image)
+
+    # decode and convert into image
+    b = io.BytesIO(base64.b64decode(data_image))
+    pimg = Image.open(b)
+
+    ## converting RGB to BGR, as opencv standards
+    frame = cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
+
+    # Process the image frame
+    frame = imutils.resize(frame, width=700)
+    frame = cv2.flip(frame, 1)
+    imgencode = cv2.imencode('.jpg', frame)[1]
+
+    # base64 encode
+    stringData = base64.b64encode(imgencode).decode('utf-8')
+    b64_src = 'data:image/png;base64,'
+    stringData = b64_src + stringData
+
+    # emit the frame back
+    emit('response_back', stringData)
+
+@app.route('/video', methods=['POST', 'GET'])
+def video():
+    # thread = threading.Thread(target=capture_camera)
+    # thread.daemon = True
+    # thread.start()
+    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route("/monitor/", methods=['POST', 'GET'])
 def monitor():
@@ -60,6 +150,10 @@ def register():
 @app.route('/session')
 def sessions():
     return render_template('session.html')
+
+@app.route('/camera')
+def camera():
+    return render_template('camera.html')
 
 
 def get_snack_count(id):
@@ -205,4 +299,4 @@ if __name__ == '__main__':
 
     # app.run('0.0.0.0', 9999, debug=False)
     thread = socketio.start_background_task(ping_in_intervals)
-    eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
+    eventlet.wsgi.server(eventlet.listen(('', 9999)), app)

@@ -33,6 +33,30 @@ h6 {
   /* font-family: "Raleway", sans-serif; */
 }
 
+.video-container {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  padding-top: 20px;
+}
+
+.corner {
+  justify-content: center;
+  align-items: center;
+  /* justify-items: center; */
+  /* align-content: center; */
+  text-align: center;
+  width: fit-content;
+  /* width: 10vw;
+  height:40vw; */
+  object-fit: contain;
+  /* border-radius: 25px; */
+  /* border: 5px solid #212aad; */
+  padding: 0px;
+  /* width:60vw; */
+  /* height: auto; */
+  background-color: #000000;
+}
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/

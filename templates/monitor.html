@@ -32,69 +32,72 @@
     </symbol>
 
   </svg>
-  
-  <section>
-    <div class="container" id="icon-grid">
-        <h4 class="pb-2 border-bottom">Converea State</h4>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 py-5">
-          <div class="col d-flex align-items-start">
-            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#temp"/></svg>
-            <div>
-              <h4 class="fw-bold mb-0">현재 온도</h4>
-              <p>현재 온도는 <strong>{{ m.temp }}</strong> 입니다</p>
-            </div>
-          </div>
-          <div class="col d-flex align-items-start">
-            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#humidity"/></svg>
-            <div>
-              <h4 class="fw-bold mb-0">현재 습도</h4>
-              <p>현재 습도는 <strong>{{ m.humidity }}</strong> 입니다</p>
-            </div>
-          </div>
-          <div class="col d-flex align-items-start">
-            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#water-level"/></svg>
-            <div>
-              <h4 class="fw-bold mb-0">현재 수위</h4>
-              <p>현재 수위는 <strong>{{ m.water_level }}</strong> 입니다</p>
-            </div>
-          </div>
-          <div class="col d-flex align-items-start">
-            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#ph"/></svg>
-            <div>
-              <h4 class="fw-bold mb-0">현재 ph</h4>
-              <p>현재 pH는 <strong>{{ m.ph }}</strong> 입니다</p>
-            </div>
-          </div>
-          <div class="col d-flex align-items-start">
-            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#turbidity"/></svg>
-            <div>
-              <h4 class="fw-bold mb-0">현재 탁도</h4>
-              <p>현재 탁도는 <strong>{{ m.turbidity }}</strong> 입니다</p>
-            </div>
-          </div>
-          <div class="col d-flex align-items-start">
-            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#fan"/></svg>
-            <div>
-              <h4 class="fw-bold mb-0">팬 회전</h4>
-              <p>현재 팬은 <strong>{{ m.fan }}</strong> 입니다</p>
-            </div>
-          </div>
-        </div>
-    </div>
 
-    <div class="container">
-      <div class="row featurette">
-        <div class="col-md-7 order-md-2">
-          <h2 class="featurette-heading">식물 성장단계 <span class="text-muted"> {{ growth }} 단계</span></h2>
-          <p class="lead">현재 작물의 성장 단계는 {{ growth }} 단계 입니다.</p>
+  <section>
+    <!-- <div class="empty_container"/> -->
+    <div class="container video-container">
+      <img width="384" height="216" src="{{ url_for('video') }}" class="corner"></img>
+    </div>
+  </section>
+
+  <div class="container" id="icon-grid">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 py-5">
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#temp"/></svg>
+        <div>
+          <h4 class="fw-bold mb-0">현재 온도</h4>
+          <p>현재 온도는 <strong>{{ m.temp }}</strong> 입니다</p>
         </div>
-        <div class="col-md-5 order-md-1">
-          <img src="/../static/growth.jpg" height="400" class="d-block w-100" alt="...">
+      </div>
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#humidity"/></svg>
+        <div>
+          <h4 class="fw-bold mb-0">현재 습도</h4>
+          <p>현재 습도는 <strong>{{ m.humidity }}</strong> 입니다</p>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#water-level"/></svg>
+        <div>
+          <h4 class="fw-bold mb-0">현재 수위</h4>
+          <p>현재 수위는 <strong>{{ m.water_level }}</strong> 입니다</p>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#ph"/></svg>
+        <div>
+          <h4 class="fw-bold mb-0">현재 ph</h4>
+          <p>현재 pH는 <strong>{{ m.ph }}</strong> 입니다</p>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#turbidity"/></svg>
+        <div>
+          <h4 class="fw-bold mb-0">현재 탁도</h4>
+          <p>현재 탁도는 <strong>{{ m.turbidity }}</strong> 입니다</p>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#fan"/></svg>
+        <div>
+          <h4 class="fw-bold mb-0">팬 회전</h4>
+          <p>현재 팬은 <strong>{{ m.fan }}</strong> 입니다</p>
         </div>
       </div>
     </div>
+  </div>
 
-  </section>
+  <div class="container">
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading">식물 성장단계 <span class="text-muted"> {{ growth }} 단계</span></h2>
+        <p class="lead">현재 작물의 성장 단계는 {{ growth }} 단계 입니다.</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+        <img src="/../static/growth.jpg" height="400" class="d-block w-100" alt="...">
+      </div>
+    </div>
+  </div>
 
   
 </main>
