@@ -12,5 +12,6 @@ psutil==5.9.4
 PyYAML
 tqdm
 matplotlib
-seaborn
+seaborn==0.11.2
 imutils
+chardet
