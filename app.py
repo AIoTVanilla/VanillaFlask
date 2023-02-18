@@ -61,7 +61,7 @@ def gen():
             break
 
         frame = cv2.imencode('.jpg', img_BGR)[1].tobytes()
-        # yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 @app.before_request

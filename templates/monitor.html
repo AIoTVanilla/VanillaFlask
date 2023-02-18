@@ -38,18 +38,18 @@
       <!-- <canvas id="canvas" width="416" height="416" style="background-color: black"></canvas> -->
       <!-- <img id="image" src="" width="416" height="416" style="background-color: black"></img> -->
 
-      <video id="video" width="0" height="0" autoplay style="background-color: black"></video>
+      <!-- <video id="video" width="0" height="0" autoplay style="background-color: black"></video>
 
       <div class="video-container">
         <canvas id="canvas" width="384" height="216" style="background-color: black"></canvas>
         <img id="image" alt="" width="384" height="216" style="background-color: black"></img>
-      </div>
+      </div> -->
 
 
       
-      <!-- <div class="video-container">
+      <div class="video-container">
         <img id="image" width="384" height="216" src="{{ url_for('video') }}" class="corner"></img>
-      </div> -->
+      </div>
 
     <div class="container" id="icon-grid">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 py-5">
@@ -110,7 +110,7 @@
       </div>
     </div>
 
-    <script>
+    <!-- <script>
       const video = document.getElementById('video');
       const canvas = document.getElementById('canvas');
       const context = canvas.getContext('2d');
@@ -119,8 +119,8 @@
 
       // Get access to the camera!
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        const w = 320
-        const h = 240
+        const w = 640
+        const h = 360
         navigator.mediaDevices.getUserMedia({ video: {
           width: { min: w, ideal: w, max: w },
           height: { min: h, ideal: h, max: h },
@@ -134,7 +134,7 @@
             setInterval(function() {
                 context.drawImage(video, 0, 0, canvas.clientWidth, canvas.clientHeight); // better use size because camera may gives data in different size then <video> is displaying
                 canvas.toBlob(upload, "image/jpeg");
-            }, 3000);
+            }, 500);
         });
       }
 
@@ -159,7 +159,7 @@
         xhr.send(formdata);
         //image.src = URL.createObjectURL(file);
       }
-    </script>
+    </script> -->
 
   </section>
 
