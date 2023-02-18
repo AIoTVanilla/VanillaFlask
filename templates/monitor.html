@@ -134,7 +134,7 @@
             setInterval(function() {
                 context.drawImage(video, 0, 0, canvas.clientWidth, canvas.clientHeight); // better use size because camera may gives data in different size then <video> is displaying
                 canvas.toBlob(upload, "image/jpeg");
-            }, 500);
+            }, 3000);
         });
       }
 
