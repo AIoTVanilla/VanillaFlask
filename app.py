@@ -35,8 +35,8 @@ def capture_camera():
 def gen():
     print("gen")
     cap=cv2.VideoCapture(0)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 360)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+    # cap.set(cv2.CAP_PROP_FRAME_WIDTH, 360)
+    # cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
     # cap.set(cv2.CAP_PROP_FPS, 20)
 
     while(cap.isOpened()):
