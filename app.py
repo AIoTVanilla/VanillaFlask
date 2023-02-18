@@ -22,8 +22,8 @@ DID = 'd000001'
 socketio = SocketIO(app, ping_in_intervals=2000)
 socketio.init_app(app, cors_allowed_origins="*")
 
-model = torch.hub.load("ultralytics/yolov5", "yolov5s", pretrained=True, force_reload=False)
-# model = torch.hub.load("ultralytics/yolov5", "custom", path = "./best_damage.pt" , force_reload=True)
+# model = torch.hub.load("ultralytics/yolov5", "yolov5s", pretrained=True, force_reload=False)
+model = torch.hub.load("ultralytics/yolov5", "custom", path = "snack.pt" , force_reload=False)
 model.eval()
 model.conf = 0.6  # confidence threshold (0-1)
 model.iou = 0.45  # NMS IoU threshold (0-1) 
@@ -34,6 +34,10 @@ def capture_camera():
 def gen():
     print("gen")
     cap=cv2.VideoCapture(0)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 360)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+    cap.set(cv2.CAP_PROP_FPS, 20)
+
     while(cap.isOpened()):
         # Capture frame-by-fram ## read the camera frame
         success, frame = cap.read()
@@ -44,7 +48,7 @@ def gen():
             img = Image.open(io.BytesIO(frame))
             results = model(img, size=640)
 
-            print("--" * 20)
+            # print("--" * 20)
             targets = results.pandas().xyxy[0]
             if targets.empty == False:
                 print(targets[['name']])
@@ -56,7 +60,7 @@ def gen():
             break
 
         frame = cv2.imencode('.jpg', img_BGR)[1].tobytes()
-        yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        # yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 @app.before_request
@@ -85,7 +89,7 @@ def upload():
             # img = detect_realtime_image(yolo, img)
             results = model(img, size=640)
 
-            print("--" * 20)
+            # print("--" * 20)
             targets = results.pandas().xyxy[0]
             if targets.empty == False:
                 print(targets[['name']])
@@ -331,6 +335,14 @@ def get_chart(device, type):
 if __name__ == '__main__':
     snack_list = ["chicken_legs", "kancho", "rollpoly", "ramen_snack", "whale_food"]
 
+    # $ openssl genrsa 1024 > server.key
+    # $ openssl req -new -x509 -nodes -sha1 -days 365 -key server.key > server.cert
+
+    # openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+
     # app.run('0.0.0.0', 9999, debug=False)
+
     thread = socketio.start_background_task(ping_in_intervals)
-    eventlet.wsgi.server(eventlet.listen(('', 9999)), app)
+    server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 9999)), certfile='secrets/server.cert', keyfile='secrets/server.key', server_side=True)
+    eventlet.wsgi.server(server, app)
+    # eventlet.wsgi.server(eventlet.listen(('', 9999)), app)

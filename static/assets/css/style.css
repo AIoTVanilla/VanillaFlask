@@ -42,11 +42,15 @@ h6 {
   align-items: center;
 }
 
+.video-container > #canvas {
+  /* display: none; */
+}
+
 .corner {
   /* justify-items: center; */
   /* align-content: center; */
   text-align: center;
-  width: fit-content;
+  /* width: fit-content; */
   /* width: 10vw;
   height:40vw; */
   object-fit: contain;

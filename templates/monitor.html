@@ -33,16 +33,19 @@
 
   </svg>
   
-  <video id="video" width="0" height="0" autoplay style="background-color: black"></video>
   <section>
 
       <!-- <canvas id="canvas" width="416" height="416" style="background-color: black"></canvas> -->
       <!-- <img id="image" src="" width="416" height="416" style="background-color: black"></img> -->
 
+      <video id="video" width="0" height="0" autoplay style="background-color: black"></video>
+
       <div class="video-container">
         <canvas id="canvas" width="384" height="216" style="background-color: black"></canvas>
         <img id="image" alt="" width="384" height="216" style="background-color: black"></img>
       </div>
+
+
       
       <!-- <div class="video-container">
         <img id="image" width="384" height="216" src="{{ url_for('video') }}" class="corner"></img>
@@ -116,13 +119,22 @@
 
       // Get access to the camera!
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+        const w = 320
+        const h = 180
+        navigator.mediaDevices.getUserMedia({ video: {
+          width: { min: w, ideal: w, max: w },
+          height: { min: h, ideal: h, max: h },
+          frameRate: { min: 8, max:60 },
+          aspectRatio: {
+            exact: w / h
+          }
+        }, audio: false }).then(function(stream) {
             video.srcObject = stream;
             video.play();
-            window.setInterval(function() {
-                context.drawImage(video, 0, 0, 416, 416); // better use size because camera may gives data in different size then <video> is displaying
+            setInterval(function() {
+                context.drawImage(video, 0, 0, canvas.clientWidth, canvas.clientHeight); // better use size because camera may gives data in different size then <video> is displaying
                 canvas.toBlob(upload, "image/jpeg");
-            }, 100);
+            }, 500);
         });
       }
 
