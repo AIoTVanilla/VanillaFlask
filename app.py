@@ -23,10 +23,11 @@ socketio = SocketIO(app, ping_in_intervals=2000)
 socketio.init_app(app, cors_allowed_origins="*")
 
 # model = torch.hub.load("ultralytics/yolov5", "yolov5s", pretrained=True, force_reload=False)
-model = torch.hub.load("ultralytics/yolov5", "custom", path = "snack.pt" , force_reload=False)
+model = torch.hub.load("ultralytics/yolov5", "custom", path = "snack" , force_reload=False)
 model.eval()
-model.conf = 0.6  # confidence threshold (0-1)
+model.conf = 0.25  # confidence threshold (0-1)
 model.iou = 0.45  # NMS IoU threshold (0-1) 
+print(model.iou, model.conf)
 
 def capture_camera():
     print("capture_camera")

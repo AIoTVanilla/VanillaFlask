@@ -119,12 +119,12 @@
 
       // Get access to the camera!
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        const w = 320
-        const h = 180
+        const w = 1920
+        const h = 1080
         navigator.mediaDevices.getUserMedia({ video: {
           width: { min: w, ideal: w, max: w },
           height: { min: h, ideal: h, max: h },
-          frameRate: { min: 8, max:60 },
+          frameRate: { min: 8, max:30 },
           aspectRatio: {
             exact: w / h
           }
