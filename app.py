@@ -10,8 +10,6 @@ import cv2
 from PIL import Image
 import io
 from io import StringIO
-import time
-import threading
 import base64
 import imutils
 
@@ -70,10 +68,6 @@ def before_request():
     app.permanent_session_lifetime = datetime.timedelta(minutes=5)
     session.modified = True
 
-def heavy_func():
-    time.sleep(20)
-    print('Hi!')
-
 def send_file_data(data, mimetype='image/jpeg', filename='output.jpg'):
     response = make_response(data)
     response.headers.set('Content-Type', mimetype)
@@ -108,13 +102,6 @@ def upload():
 
     return redirect(url_for('index'))
 
-@app.route('/method', methods=['GET'])
-def get_method(): 
-    thread = threading.Thread(target=heavy_func)
-    thread.daemon = True
-    thread.start()
-    return "work is in progress"
-
 @app.route("/", methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
@@ -146,17 +133,10 @@ def image(data_image):
 
 @app.route('/video', methods=['POST', 'GET'])
 def video():
-    # thread = threading.Thread(target=capture_camera)
-    # thread.daemon = True
-    # thread.start()
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route("/monitor/", methods=['POST', 'GET'])
 def monitor():
-    # if 'd' not in session:
-    #     session['d'] = get_device(DID)
-    # device = session['d']
-    # m = get_monitor(device['sensor'][-1])
     m = {
         "temp": 20,
         "humidity": 10,
@@ -166,29 +146,12 @@ def monitor():
         "fan": True
     }
     value = random.randrange(0, 4)
-    print(value)
     g = get_growth(value)
-
-    # g = get_growth(device['growth']) 
     return render_template('monitor.html', m = m, growth = g)
 
 @app.route("/board/<type>", methods=['POST', 'GET'])
 def board(type = 'temp'):
     return render_template('board.html')
-
-@app.route("/register", methods=['POST', 'GET'])
-def register():
-    if request.method == "GET":
-        return render_template('sregister.html')
-    else:
-        sId = request.form['sId']
-        if len(sId) > 0:
-            create_device(sId)
-        return render_template('index.html')
-
-@app.route('/session')
-def sessions():
-    return render_template('session.html')
 
 @app.route('/camera')
 def camera():
@@ -235,14 +198,6 @@ def request_favorite_snack():
     }
     return data
 
-def messageReceived():
-    print('message was received!!!')
-
-@socketio.on('request')
-def handle_my_custom_event(json):
-    print('received request: ' + str(json))
-    socketio.emit('response', json, callback=messageReceived)
-
 @socketio.on('connect')
 def test_connect():
     socketio.emit('response',  {'result': True})
@@ -274,6 +229,7 @@ def get_growth(growth):
         return '성장'
     elif growth == 3:
         return '성숙'
+
 def get_monitor(sensor):
     if sensor['water_level'] == 0:
         water_level = '부족상태'
