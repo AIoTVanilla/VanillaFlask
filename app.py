@@ -35,8 +35,8 @@ def capture_camera():
 def gen():
     print("gen")
     cap = cv2.VideoCapture(0)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
+    # cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+    # cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
     # cap.set(cv2.CAP_PROP_FPS, 20)
     print("camera opened...", cap.isOpened())
 
@@ -322,11 +322,10 @@ def get_chart(device, type):
 
 img = []
 cap = None
-app = Flask(__name__)
 app_not_done = True
 
 @app.route("/cap_img")
-def get_image():
+def cap_img():
     retval, buffer = cv2.imencode('.png', img)
     response = make_response(buffer.tobytes())
     response.headers['Content-Type'] = 'image/png'
@@ -368,9 +367,6 @@ if __name__ == '__main__':
     thrd.daemon = True
     thrd.start()
 
-    app_not_done = False
-    thrd.join()
-
     snack_list = ["chicken_legs", "kancho", "rollpoly", "ramen_snack", "whale_food"]
 
     # $ openssl genrsa 1024 > server.key
@@ -385,3 +381,6 @@ if __name__ == '__main__':
     # server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 8888)), certfile='secrets/cert.pem', keyfile='secrets/key.pem', server_side=True)
     # eventlet.wsgi.server(server, app)
     eventlet.wsgi.server(eventlet.listen(('', 8888)), app)
+
+    app_not_done = False
+    thrd.join()

@@ -83,7 +83,7 @@
 
     <script>
       const log = document.getElementById('log');
-      const image = document.getElementById('image');
+      // const image = document.getElementById('image');
 
       const socket = io.connect('ws://' + document.domain + ':' + location.port);
       socket.on('connect', () => {
@@ -99,6 +99,10 @@
       })
       socket.on('frame', (frame) => {
         console.log("frame...")
+      })
+
+      document.addEventListener('load', () => {
+        console.log("loaded..")
       })
     </script>
 
