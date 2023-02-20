@@ -12,6 +12,7 @@ import io
 from io import StringIO
 import base64
 import imutils
+import time
 
 
 app = Flask(__name__)
@@ -149,6 +150,24 @@ def monitor():
     g = get_growth(value)
     return render_template('monitor.html', m = m, growth = g)
 
+def flask_logger():
+    """creates logging information"""
+    for i in range(100):
+        # print(datetime.datetime.now().strftime('%H:%M:%S'))
+        current_time = datetime.datetime.now().strftime('%H:%M:%S') + "\n"
+        # log = current_time
+        print(current_time, current_time.encode())
+        yield current_time.encode()
+        time.sleep(1)
+
+
+@app.route("/log_stream", methods=['POST', 'GET'])
+def log_stream():
+    """returns logging information"""
+    print("logging....")
+    return Response(flask_logger(), mimetype="text/plain", content_type="text/event-stream")
+
+
 @app.route("/board/<type>", methods=['POST', 'GET'])
 def board(type = 'temp'):
     return render_template('board.html')
@@ -157,6 +176,9 @@ def board(type = 'temp'):
 def camera():
     return render_template('camera.html')
 
+@app.route('/session')
+def session():
+    return render_template('session.html')
 
 def get_snack_count(id):
     snack_count = random.randint(0, 5)
@@ -207,11 +229,17 @@ def snack_tracking():
     print("tracking!!!")
 
 def ping_in_intervals():
+    count = 0
     snack_status = False
     while True:
-        socketio.sleep(10)
-        socketio.emit('snack', {
+        socketio.sleep(5)
+        # socketio.emit('snack', {
+        #     'success': True,
+        #     'result': bool(snack_status)
+        # })
+        socketio.emit('log', {
             'success': True,
+            'time': datetime.datetime.now().strftime("%Y%m%d %H%M%S"),
             'result': bool(snack_status)
         })
         snack_status = snack_status == False
@@ -302,4 +330,4 @@ if __name__ == '__main__':
     thread = socketio.start_background_task(ping_in_intervals)
     # server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 9999)), certfile='secrets/server.cert', keyfile='secrets/server.key', server_side=True)
     # eventlet.wsgi.server(server, app)
-    eventlet.wsgi.server(eventlet.listen(('', 9999)), app)
+    eventlet.wsgi.server(eventlet.listen(('', 8888)), app)

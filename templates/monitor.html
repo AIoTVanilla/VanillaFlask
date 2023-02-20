@@ -2,6 +2,7 @@
 
 {% block style %}
 <!-- <link href="/static/assets/css/style_board.css" rel="stylesheet"> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -71,66 +72,27 @@
 
     <div class="container">
       <div class="row featurette">
-        <div class="col-md-7 order-md-2">
-          <h2 class="featurette-heading">식물 성장단계 <span class="text-muted"> {{ growth }} 단계</span></h2>
-          <p class="lead">현재 작물의 성장 단계는 {{ growth }} 단계 입니다.</p>
-        </div>
-        <div class="col-md-5 order-md-1">
-          <img src="/../static/growth.jpg" height="400" class="d-block w-100" alt="...">
+        <div class="row">
+          <code id="log" class="logging_window" readonly disabled></code>
         </div>
       </div>
     </div>
 
-    <!-- <script>
-      const video = document.getElementById('video');
-      const canvas = document.getElementById('canvas');
-      const context = canvas.getContext('2d');
-      const image = document.getElementById('image');
-      // console.log("Hello", video, canvas, image)
-
-      // Get access to the camera!
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        const w = 640
-        const h = 360
-        navigator.mediaDevices.getUserMedia({ video: {
-          width: { min: w, ideal: w, max: w },
-          height: { min: h, ideal: h, max: h },
-          frameRate: { min: 8, max:30 },
-          aspectRatio: {
-            exact: w / h
-          }
-        }, audio: false }).then(function(stream) {
-            video.srcObject = stream;
-            video.play();
-            setInterval(function() {
-                context.drawImage(video, 0, 0, canvas.clientWidth, canvas.clientHeight); // better use size because camera may gives data in different size then <video> is displaying
-                canvas.toBlob(upload, "image/jpeg");
-            }, 500);
-        });
-      }
-
-      function upload(file) {
-        const formdata =  new FormData();
-        formdata.append("snap", file);
-
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "{{ url_for('upload') }}", true);
-        xhr.responseType = 'blob';
-        xhr.onload = function() {
-
-            if(this.status = 200) {
-                //console.log(this.response);
-            } else {
-                console.error(xhr);
-            }
-
-            image.src = URL.createObjectURL(this.response); // blob
-        };
-        // send form in AJAX
-        xhr.send(formdata);
-        //image.src = URL.createObjectURL(file);
-      }
-    </script> -->
+    <script>
+      const log = document.getElementById('log');
+      const socket = io.connect('ws://' + document.domain + ':' + location.port);
+      socket.on('connect', () => {
+        console.log("connected socket..")
+      })
+      socket.on('log', (msg) => {
+        // <span style="color: blue">var</span> foo = <span style="color: green">"bar"</span>;
+        message = JSON.stringify(msg)
+        time = msg["time"]
+        // log.append()
+        log.innerHTML += `<span style="color: blue">${time}</span> "foo =" <span style="color: green">${message}</span><br/>`
+        log.scrollTop = log.scrollHeight
+      })
+    </script>
 
   </section>
 
