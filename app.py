@@ -300,6 +300,6 @@ if __name__ == '__main__':
     # app.run('0.0.0.0', 9999, debug=False)
 
     thread = socketio.start_background_task(ping_in_intervals)
-    server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 9999)), certfile='secrets/server.cert', keyfile='secrets/server.key', server_side=True)
-    eventlet.wsgi.server(server, app)
-    # eventlet.wsgi.server(eventlet.listen(('', 9999)), app)
+    # server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 9999)), certfile='secrets/server.cert', keyfile='secrets/server.key', server_side=True)
+    # eventlet.wsgi.server(server, app)
+    eventlet.wsgi.server(eventlet.listen(('', 9999)), app)
