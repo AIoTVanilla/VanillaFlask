@@ -20,10 +20,13 @@
       </div> -->
 
 
-      
       <div class="video-container">
-        <img id="image" width="384" height="216" src="{{ url_for('video') }}" class="corner"></img>
+        <img id="image" width="384" height="216" class="corner"></img>
       </div>
+      
+      <!-- <div class="video-container">
+        <img id="image" width="384" height="216" src="{{ url_for('video') }}" class="corner"></img>
+      </div> -->
 
     <div class="container" id="icon-grid">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 py-5">
@@ -80,6 +83,8 @@
 
     <script>
       const log = document.getElementById('log');
+      const image = document.getElementById('image');
+
       const socket = io.connect('ws://' + document.domain + ':' + location.port);
       socket.on('connect', () => {
         console.log("connected socket..")
@@ -91,6 +96,9 @@
         // log.append()
         log.innerHTML += `<span style="color: blue">${time}</span> "foo =" <span style="color: green">${message}</span><br/>`
         log.scrollTop = log.scrollHeight
+      })
+      socket.on('frame', (frame) => {
+        console.log("frame...")
       })
     </script>
 

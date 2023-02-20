@@ -13,6 +13,7 @@ from io import StringIO
 import base64
 import imutils
 import time
+import threading
 
 
 app = Flask(__name__)
@@ -33,10 +34,11 @@ def capture_camera():
     
 def gen():
     print("gen")
-    cap=cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
     # cap.set(cv2.CAP_PROP_FPS, 20)
+    print("camera opened...", cap.isOpened())
 
     while(cap.isOpened()):
         # Capture frame-by-fram ## read the camera frame
@@ -316,8 +318,59 @@ def get_chart(device, type):
         return [sensor['ph'] for sensor in sensors]
     elif type == 'turbidity':
         return [sensor['turbidity'] for sensor in sensors]
+    
+
+img = []
+cap = None
+app = Flask(__name__)
+app_not_done = True
+
+@app.route("/cap_img")
+def get_image():
+    retval, buffer = cv2.imencode('.png', img)
+    response = make_response(buffer.tobytes())
+    response.headers['Content-Type'] = 'image/png'
+    return response
+
+
+class CameraThread(threading.Thread):
+    def __init__(self, name):
+        threading.Thread.__init__(self)
+        self.name = name
+
+    def run(self):
+        global img
+        global app_not_done
+
+        print("+++++++++ SETTING UP CAMERA ++++++++")
+        cap = cv2.VideoCapture(0)
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        cnt = 0
+        while(app_not_done):
+            # Capture frame-by-frame
+            ret, frame = cap.read()
+            if ret:
+                img = frame
+            else:
+                cnt += 1
+                if cnt < 4:
+                    print("Could not read camera")
+
+        # When everything done, release the capture
+        print("RELEASING CAMERA *******************")
+        cap.release()
+
+
 
 if __name__ == '__main__':
+    thrd = CameraThread('camera_thread')
+    thrd.daemon = True
+    thrd.start()
+
+    app_not_done = False
+    thrd.join()
+
     snack_list = ["chicken_legs", "kancho", "rollpoly", "ramen_snack", "whale_food"]
 
     # $ openssl genrsa 1024 > server.key
@@ -328,6 +381,7 @@ if __name__ == '__main__':
     # app.run('0.0.0.0', 9999, debug=False)
 
     thread = socketio.start_background_task(ping_in_intervals)
-    # server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 9999)), certfile='secrets/server.cert', keyfile='secrets/server.key', server_side=True)
+    # thread1 = socketio.start_background_task(gen)
+    # server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 8888)), certfile='secrets/cert.pem', keyfile='secrets/key.pem', server_side=True)
     # eventlet.wsgi.server(server, app)
     eventlet.wsgi.server(eventlet.listen(('', 8888)), app)
