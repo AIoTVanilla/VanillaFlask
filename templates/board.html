@@ -27,9 +27,10 @@
                   <i class="bi bi-egg-fried"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>{{ data['snack_count'] }}</h6>
-                  <span class="text-danger small pt-1 fw-bold">{{ data['snack_count_in_hour'] }}</span> <span class="text-muted small pt-2 ps-1">called in hour</span>
+                  <h6>{{ data['total_snack_count'] }}</h6>
 
+                  <span class="text-danger small pt-1 fw-bold">{{ data['recent_warehouse_items']['incoming_count'] }}</span> <span class="text-muted small pt-2 ps-1">added in hour</span>
+                  <!-- <span class="text-danger small pt-1 fw-bold">{{ data['recent_warehouse_items']['outgoing_count'] }}</span> <span class="text-muted small pt-2 ps-1">removed in hour</span> -->
                 </div>
               </div>
             </div>
@@ -147,36 +148,36 @@
                   <tr>
                     <th scope="row"><img src="/static/assets/img/snack/s1.jpg" alt=""></th>
                     <td><div href="#" class="text-primary fw-bold">닭다리</div></td>
-                    <td>+3</td>
-                    <td>-2</td>
+                    <td>{{ data['recent_warehouse_items']['incoming']['chicken_legs'] }}</td>
+                    <td>{{ data['recent_warehouse_items']['outgoing']['chicken_legs'] }}</td>
                     <td class="fw-bold">{{ data['snack_list']['chicken_legs'] }}</td>
                   </tr>
                   <tr>
                     <th scope="row"><img src="/static/assets/img/snack/s2.jpg" alt=""></th>
                     <td><div href="#" class="text-primary fw-bold">칸쵸</div></td>
-                    <td>+3</td>
-                    <td>-2</td>
+                    <td>{{ data['recent_warehouse_items']['incoming']['kancho'] }}</td>
+                    <td>{{ data['recent_warehouse_items']['outgoing']['kancho'] }}</td>
                     <td class="fw-bold">{{ data['snack_list']['kancho'] }}</td>
                   </tr>
                   <tr>
                     <th scope="row"><img src="/static/assets/img/snack/s3.jpg" alt=""></th>
                     <td><div href="#" class="text-primary fw-bold">롤리폴리</div></td>
-                    <td>+3</td>
-                    <td>-2</td>
+                    <td>{{ data['recent_warehouse_items']['incoming']['rollpoly'] }}</td>
+                    <td>{{ data['recent_warehouse_items']['outgoing']['rollpoly'] }}</td>
                     <td class="fw-bold">{{ data['snack_list']['rollpoly'] }}</td>
                   </tr>
                   <tr>
                     <th scope="row"><img src="/static/assets/img/snack/s4.jpg" alt=""></th>
                     <td><div href="#" class="text-primary fw-bold">쫄병 안성탕면</div></td>
-                    <td>+3</td>
-                    <td>-2</td>
+                    <td>{{ data['recent_warehouse_items']['incoming']['ramen_snack'] }}</td>
+                    <td>{{ data['recent_warehouse_items']['outgoing']['ramen_snack'] }}</td>
                     <td class="fw-bold">{{ data['snack_list']['ramen_snack'] }}</td>
                   </tr>
                   <tr>
                     <th scope="row"><img src="/static/assets/img/snack/s5.jpg" alt=""></th>
                     <td><div href="#" class="text-primary fw-bold">고래밥</div></td>
-                    <td>+3</td>
-                    <td>-2</td>
+                    <td>{{ data['recent_warehouse_items']['incoming']['whale_food'] }}</td>
+                    <td>{{ data['recent_warehouse_items']['outgoing']['whale_food'] }}</td>
                     <td class="fw-bold">{{ data['snack_list']['whale_food'] }}</td>
                   </tr>
                 </tbody>
@@ -294,23 +295,23 @@
                     show: false
                   },
                   data: [{
-                      value: 1048,
+                      value: "{{ data['recent_warehouse_items']['incoming']['chicken_legs'] }}",
                       name: '닭다리'
                     },
                     {
-                      value: 735,
+                      value: "{{ data['recent_warehouse_items']['incoming']['kancho'] }}",
                       name: '칸쵸'
                     },
                     {
-                      value: 580,
+                      value: "{{ data['recent_warehouse_items']['incoming']['ramen_snack'] }}",
                       name: '롤리폴리'
                     },
                     {
-                      value: 484,
+                      value: "{{ data['recent_warehouse_items']['incoming']['rollpoly'] }}",
                       name: '쫄병 안성탕면'
                     },
                     {
-                      value: 300,
+                      value: "{{ data['recent_warehouse_items']['incoming']['whale_food'] }}",
                       name: '고래밥'
                     }
                   ]

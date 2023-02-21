@@ -43,14 +43,18 @@ def flask_logger():
 @app.route("/board", methods=['POST', 'GET'])
 def board(data = None):
     print('--' * 20)
+    snack_list = get_current_snack_list();
     recent_snack_count = get_data_in_hour('snack');
     recent_speaker_count = get_data_in_hour('speaker');
+    recent_warehouse_items = get_data_in_hour('warehouse', return_count=False);
     json_data = {
+        "total_snack_count": sum(snack_list.values()),
         "snack_count": get_current_call_count('snack'),
         "speaker_count": get_current_call_count('speaker'),
         "snack_count_in_hour": recent_snack_count,
         "speaker_count_in_hour": recent_speaker_count,
-        "snack_list": get_current_snack_list()
+        "snack_list": snack_list,
+        "recent_warehouse_items": recent_warehouse_items,
     }
     print('--' * 20)
     return render_template('board.html', data = json_data)

@@ -7,18 +7,13 @@ import socket
 from collections import Counter
 from google.api_core.datetime_helpers import DatetimeWithNanoseconds
 import time
-
-# Use a service account.
-# /Users/suyoung/Documents/dev/aiot/AIoTClass/webapp/aiot-nuguna-03687aeaa9e6.json
+import pandas as pd
 
 last_snack_count = Counter([])
 json_path = os.path.join(os.path.dirname(__file__).replace('library', ''), 'vanilla-3a108-firebase-adminsdk-ysr0t-9ce51811c0.json')
 cred = credentials.Certificate(json_path)
 app = firebase_admin.initialize_app(cred)
-
 db = firestore.client()
-print(firebase_admin.get_app())
-print(socket.gethostname())
 
 def save_speaker_log(command, result):
     doc_ref = db.collection('speaker').document()
@@ -81,21 +76,87 @@ def get_current_call_count(path):
     }).get()
     return len(items)
 
-def get_data_in_hour(path):
-    current_date = datetime.now()
-    ts = DatetimeWithNanoseconds(current_date.year, current_date.month, current_date.day, current_date.hour, current_date.minute, 0, 0, tzinfo=timezone(timedelta(hours=10)))
+def sum_by_key(df, key, is_plus):
+    if is_plus:
+        value = sum(df[df[key] > 0][key])
+        return value if value > 0 else 0
+    else:
+        value = sum(df[df[key] < 0][key])
+        return value if value < 0 else 0
+
+def get_str_value(value, is_plus):
+    if is_plus:
+        return ("+" + str(value)) if value > 0 else "+0"
+    else:
+        return str(value) if value < 0 else "-0"
+
+def get_data_in_hour(path, return_count = True):
+    current_date = datetime.now() - timedelta(hours=1)
+    ts = DatetimeWithNanoseconds(current_date.year, current_date.month, current_date.day, current_date.hour, current_date.minute, 0, 0, tzinfo=timezone(timedelta(hours=9)))
 
     items = db.collection(path).order_by('execute_time').start_at({
         "execute_time": ts
     }).get()
     # size = len(items)
     # return size, items[-1].to_dict() if size > 0 else {}
-    return len(items)
+
+    if return_count:
+        return len(items)
+    else:
+        warehouse_data = []
+        for item in items:
+            warehouse_data.append(item.to_dict())
+        
+        df = pd.DataFrame(warehouse_data)
+
+        chicken_legs_incoming = sum_by_key(df, "chicken_legs", True)
+        kancho_incoming = sum_by_key(df, "kancho", True)
+        ramen_snack_incoming = sum_by_key(df, "ramen_snack", True)
+        rollpoly_incoming = sum_by_key(df, "rollpoly", True)
+        whale_food_incoming = sum_by_key(df, "whale_food", True)
+
+        chicken_legs_outgoing = last_snack_count["chicken_legs"] - int(chicken_legs_incoming)
+        kancho_outgoing = last_snack_count["kancho"] - int(kancho_incoming)
+        ramen_snack_outgoing = last_snack_count["ramen_snack"] - int(ramen_snack_incoming)
+        rollpoly_outgoing = last_snack_count["rollpoly"] - int(rollpoly_incoming)
+        whale_food_outgoing = last_snack_count["whale_food"] - int(whale_food_incoming)
+
+        incoming_count = sum([chicken_legs_incoming, kancho_incoming, ramen_snack_incoming, rollpoly_incoming, whale_food_incoming])
+        # outgoing_count = sum([chicken_legs_outgoing, kancho_outgoing, ramen_snack_outgoing, rollpoly_outgoing, whale_food_outgoing])
+
+        return {
+            "incoming_count": get_str_value(incoming_count, True),
+            # "outgoing_count": get_str_value(outgoing_count, False),
+            "incoming": {
+                "chicken_legs": get_str_value(chicken_legs_incoming, True),
+                "kancho": get_str_value(kancho_incoming, True),
+                "ramen_snack": get_str_value(ramen_snack_incoming, True),
+                "rollpoly": get_str_value(rollpoly_incoming, True),
+                "whale_food": get_str_value(whale_food_incoming, True),
+            },
+            "outgoing": {
+                "chicken_legs": get_str_value(chicken_legs_outgoing, False),
+                "kancho": get_str_value(kancho_outgoing, False),
+                "ramen_snack": get_str_value(ramen_snack_outgoing, False),
+                "rollpoly": get_str_value(rollpoly_outgoing, False),
+                "whale_food": get_str_value(whale_food_outgoing, False),
+            },
+
+        }
 
 def get_current_snack_list():
     timestamp = get_current_hour_timestamp()
     doc = db.collection('snack').document(str(timestamp)).get()
-    return doc.to_dict() if doc.exists else {}
+
+    dict = doc.to_dict()
+    del dict["execute_time"]
+    return dict if doc.exists else {
+        'chicken_legs': 0,
+        'kancho': 0,
+        'ramen_snack': 0,
+        'rollpoly': 0,
+        'whale_food': 0,
+    }
 
 def get_device(d_id):
     device = db.collection('mdevice').document(d_id).get()
