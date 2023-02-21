@@ -10,7 +10,7 @@ import time
 import threading
 from yolo_manager import get_last_frame, show, get_snack_data
 import json
-from database import save_snack_log
+from database import save_snack_log, save_speaker_log
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vanilla'
@@ -82,6 +82,7 @@ def request_snack_count():
         "success": True,
         "result": snack_count
     }
+    save_speaker_log('request_snack_count', json.dumps(data))
     return data
 
 @app.route('/request_snack_list', methods=['GET'])
@@ -96,6 +97,7 @@ def request_snack_list():
             {"name": snack_list[4], "count": get_snack_count("s5")},
         ]
     }
+    save_speaker_log('request_snack_list', json.dumps(data))
     return data
 
 @app.route('/request_favorite_snack', methods=['GET'])
@@ -105,6 +107,7 @@ def request_favorite_snack():
         "success": True,
         "result": random.sample(snack_list, 3)
     }
+    save_speaker_log('request_favorite_snack', json.dumps(data))
     return data
 
 @socketio.on('snack_tracking')
