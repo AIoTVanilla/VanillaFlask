@@ -18,35 +18,35 @@
           <i class="bi flex-shrink-0 me-3 bi-square-fill text-danger" width="1.75em" height="1.75em"></i>
           <div>
             <h4 class="fw-bold mb-0">닭다리</h4>
-            <p>현재 온도는 <strong>{{ m.temp }}</strong> 입니다</p>
+            <p>현재 <strong id="st_legs">0</strong> 개 있습니다</p>
           </div>
         </div>
         <div class="col d-flex align-items-start">
           <i class="bi flex-shrink-0 me-3 bi-square-fill text-warning" width="1.75em" height="1.75em"></i>
           <div>
             <h4 class="fw-bold mb-0">칸쵸</h4>
-            <p>현재 습도는 <strong>{{ m.humidity }}</strong> 입니다</p>
+            <p>현재 <strong id="st_kancho">0</strong> 개 있습니다</p>
           </div>
         </div>
         <div class="col d-flex align-items-start">
           <i class="bi flex-shrink-0 me-3 bi-square-fill text-muted" width="1.75em" height="1.75em"></i>
           <div>
             <h4 class="fw-bold mb-0">롤리폴리</h4>
-            <p>현재 수위는 <strong>{{ m.water_level }}</strong> 입니다</p>
+            <p>현재 <strong id="st_rollpoly">0</strong> 개 있습니다</p>
           </div>
         </div>
         <div class="col d-flex align-items-start">
           <i class="bi flex-shrink-0 me-3 bi-square-fill text-info" width="1.75em" height="1.75em"></i>
           <div>
             <h4 class="fw-bold mb-0">쫄병 안성탕면</h4>
-            <p>현재 pH는 <strong>{{ m.ph }}</strong> 입니다</p>
+            <p>현재 <strong id="st_ramen">0</strong> 개 있습니다</p>
           </div>
         </div>
         <div class="col d-flex align-items-start">
           <i class="bi flex-shrink-0 me-3 bi-square-fill text-success" width="1.75em" height="1.75em"></i>
           <div>
             <h4 class="fw-bold mb-0">고래밥</h4>
-            <p>현재 탁도는 <strong>{{ m.turbidity }}</strong> 입니다</p>
+            <p>현재 <strong id="st_whale">0</strong> 개 있습니다</p>
           </div>
         </div>
       </div>
@@ -59,6 +59,11 @@
     <script>
       const log = document.getElementById('log');
       const image = document.getElementById('image');
+      const st_legs = document.getElementById('st_legs');
+      const st_kancho = document.getElementById('st_kancho');
+      const st_rollpoly = document.getElementById('st_rollpoly');
+      const st_ramen = document.getElementById('st_ramen');
+      const st_whale = document.getElementById('st_whale');
 
       const socket = io.connect('ws://' + document.domain + ':' + location.port);
       socket.on('connect', () => {
@@ -67,12 +72,23 @@
       socket.on('log', (msg) => {
         message = JSON.stringify(msg)
         time = msg["time"]
+        result = msg["result"]
 
-        log.innerHTML += `<span style="color: blue">${time}</span> "foo =" <span style="color: green">${message}</span><br/>`
+        if (result.length > 0) {
+          st_legs.innerHTML = result.filter((item) => item == "chicken_legs").length
+          st_kancho.innerHTML = result.filter((item) => item == "kancho").length
+          st_rollpoly.innerHTML = result.filter((item) => item == "rollpoly").length
+          st_ramen.innerHTML = result.filter((item) => item == "ramen_snack").length
+          st_whale.innerHTML = result.filter((item) => item == "whale_food").length
+          log.innerHTML += `<span style="color: DarkGray">[${time}]</span>snack list:<span style="color: RosyBrown">${result}</span><br/>`
+        }
+        else {
+          log.innerHTML += `<span style="color: DarkGray">[${time}]</span>can't get snack data...<br/>`
+        }
+
         log.scrollTop = log.scrollHeight
       })
       socket.on('frame', (frame) => {
-        console.log("frame...", frame != "None")
         if (frame != undefined) {
           image.src = frame
         }
