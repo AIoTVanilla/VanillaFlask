@@ -10,7 +10,7 @@ from collections import Counter
 # /Users/suyoung/Documents/dev/aiot/AIoTClass/webapp/aiot-nuguna-03687aeaa9e6.json
 
 last_snack_count = Counter([])
-json_path = os.path.join(os.path.dirname(__file__).replace('src', ''), 'vanilla-3a108-firebase-adminsdk-ysr0t-9ce51811c0.json')
+json_path = os.path.join(os.path.dirname(__file__).replace('library', ''), 'vanilla-3a108-firebase-adminsdk-ysr0t-9ce51811c0.json')
 cred = credentials.Certificate(json_path)
 app = firebase_admin.initialize_app(cred)
 

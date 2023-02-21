@@ -1,16 +1,15 @@
-from flask import Flask, request, render_template, session, Response, make_response, redirect, url_for
-from src.database import *
+from flask import Flask, render_template, session, Response
+from library.database import *
 import numpy as np
 import datetime
 import random
 from flask_socketio import SocketIO, emit
 import eventlet
-import torch
 import time
 import threading
-from src.yolo_manager import get_last_frame, show, get_snack_data
+from library.yolo_manager import get_last_frame, show, get_snack_data
 import json
-from src.database import save_snack_log, save_speaker_log
+from library.database import save_snack_log, save_speaker_log
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vanilla'
