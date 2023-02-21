@@ -35,116 +35,15 @@ cap = None
 app_not_done = True
 camera_status = None
 
-def capture_camera():
-    print("capture_camera")
-    
-def gen():
-    print("gen")
-    cap = cv2.VideoCapture(0)
-    # cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    # cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
-    # cap.set(cv2.CAP_PROP_FPS, 20)
-
-    while(cap.isOpened()):
-        # Capture frame-by-fram ## read the camera frame
-        success, frame = cap.read()
-        # print("1111")
-        if success == True:
-            ret, buffer=cv2.imencode('.jpg', frame)
-            frame=buffer.tobytes()
-            
-            img = Image.open(io.BytesIO(frame))
-            results = model(img, size=640)
-            # print("2222")
-
-            # print("--" * 20)
-            targets = results.pandas().xyxy[0]
-            if targets.empty == False:
-                print(targets[['name']])
-            # results.print()  # print results to screen
-
-            img = np.squeeze(results.render()) #RGB
-            img_BGR = cv2.cvtColor(img, cv2.COLOR_RGB2BGR) #BGR
-        else:
-            # print("3333")
-            break
-
-        frame = cv2.imencode('.jpg', img_BGR)[1].tobytes()
-        yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-
 @app.before_request
 def before_request():
     session.permanent = True
     app.permanent_session_lifetime = datetime.timedelta(minutes=5)
     session.modified = True
 
-def send_file_data(data, mimetype='image/jpeg', filename='output.jpg'):
-    response = make_response(data)
-    response.headers.set('Content-Type', mimetype)
-    response.headers.set('Content-Disposition', 'attachment', filename=filename)
-
-    return response
-
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
-    if request.method == 'POST':
-        fs = request.files.get('snap')
-        if fs:
-            img = cv2.imdecode(np.frombuffer(fs.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-            # img = detect_realtime_image(yolo, img)
-            results = model(img, size=640)
-
-            # print("--" * 20)
-            targets = results.pandas().xyxy[0]
-            if targets.empty == False:
-                print(targets[['name']])
-            # results.print()  # print results to screen
-
-            # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            # ret, buf = cv2.imencode('.jpg', img)
-            img = np.squeeze(results.render()) #RGB
-            img_BGR = cv2.cvtColor(img, cv2.COLOR_RGB2RGBA) #BGR
-            frame = cv2.imencode('.jpg', img_BGR)[1].tobytes()
-
-            return send_file_data(frame)
-        else:
-            return 'You forgot Snap!'
-
-    return redirect(url_for('index'))
-
 @app.route("/", methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
-
-@socketio.on('image')
-def image(data_image):
-    sbuf = StringIO()
-    sbuf.write(data_image)
-
-    # decode and convert into image
-    b = io.BytesIO(base64.b64decode(data_image))
-    pimg = Image.open(b)
-
-    ## converting RGB to BGR, as opencv standards
-    frame = cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
-
-    # Process the image frame
-    frame = imutils.resize(frame, width=700)
-    frame = cv2.flip(frame, 1)
-    imgencode = cv2.imencode('.jpg', frame)[1]
-
-    # base64 encode
-    stringData = base64.b64encode(imgencode).decode('utf-8')
-    b64_src = 'data:image/png;base64,'
-    stringData = b64_src + stringData
-
-    # emit the frame back
-    emit('response_back', stringData)
-
-@app.route('/video', methods=['POST', 'GET'])
-def video():
-    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route("/monitor", methods=['POST', 'GET'])
 def monitor():
@@ -177,14 +76,9 @@ def log_stream():
     print("logging....")
     return Response(flask_logger(), mimetype="text/plain", content_type="text/event-stream")
 
-
 @app.route("/board/<type>", methods=['POST', 'GET'])
 def board(type = 'temp'):
     return render_template('board.html')
-
-@app.route('/camera')
-def camera():
-    return render_template('camera.html')
 
 @app.route('/session')
 def session():
@@ -230,9 +124,9 @@ def request_favorite_snack():
     }
     return data
 
-@socketio.on('connect')
-def test_connect():
-    socketio.emit('response',  {'result': True})
+# @socketio.on('connect')
+# def test_connect():
+#     socketio.emit('response',  {'result': True})
 
 @socketio.on('snack_tracking')
 def snack_tracking():
@@ -308,43 +202,6 @@ def get_board(device):
     msensors = [get_monitor(sensor) for sensor in sensors]
 
     return msensors, timeline
-
-@app.route("/cap_img", methods=['GET', 'POST'])
-def cap_img():
-    retval, buffer = cv2.imencode('.png', img)
-    response = make_response(buffer.tobytes())
-    response.headers['Content-Type'] = 'image/png'
-    return response
-
-
-class CameraThread(threading.Thread):
-    def __init__(self, name):
-        threading.Thread.__init__(self)
-        self.name = name
-
-    def run(self):
-        global img
-        global app_not_done
-
-        print("+++++++++ SETTING UP CAMERA ++++++++")
-        cap = cv2.VideoCapture(0)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-        cnt = 0
-        while(app_not_done):
-            # Capture frame-by-frame
-            ret, frame = cap.read()
-            if ret:
-                img = frame
-            else:
-                cnt += 1
-                if cnt < 4:
-                    print("Could not read camera")
-
-        # When everything done, release the capture
-        print("RELEASING CAMERA *******************")
-        cap.release()
-
 
 def gstreamer_pipeline(
     sensor_id=0,
