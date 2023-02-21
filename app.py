@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, session, Response, make_response, redirect, url_for
-from database import *
+from src.database import *
 import numpy as np
 import datetime
 import random
@@ -8,9 +8,9 @@ import eventlet
 import torch
 import time
 import threading
-from yolo_manager import get_last_frame, show, get_snack_data
+from src.yolo_manager import get_last_frame, show, get_snack_data
 import json
-from database import save_snack_log, save_speaker_log
+from src.database import save_snack_log, save_speaker_log
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vanilla'
@@ -30,17 +30,7 @@ def index():
 
 @app.route("/monitor", methods=['POST', 'GET'])
 def monitor():
-    m = {
-        "temp": 20,
-        "humidity": 10,
-        "water_level": 20,
-        "ph": 7,
-        "turbidity": 5,
-        "fan": True
-    }
-    value = random.randrange(0, 4)
-    g = get_growth(value)
-    return render_template('monitor.html', m = m, growth = g)
+    return render_template('monitor.html')
 
 def flask_logger():
     """creates logging information"""
@@ -59,8 +49,8 @@ def log_stream():
     print("logging....")
     return Response(flask_logger(), mimetype="text/plain", content_type="text/event-stream")
 
-@app.route("/board/<type>", methods=['POST', 'GET'])
-def board(type = 'temp'):
+@app.route("/board", methods=['POST', 'GET'])
+def board():
     return render_template('board.html')
 
 @app.route('/session')
