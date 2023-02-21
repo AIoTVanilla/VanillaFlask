@@ -73,7 +73,8 @@ def show():
     global last_frame
 
     window_title = 'vanilla_monitor'
-    video_capture = cv2.VideoCapture(0)
+    # video_capture = cv2.VideoCapture(0)
+    video_capture = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
     # video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     # video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
     

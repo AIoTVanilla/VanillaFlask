@@ -185,4 +185,4 @@ if __name__ == '__main__':
 
     # app.run('0.0.0.0', 9999, debug=False)
     thread = socketio.start_background_task(ping_in_intervals)
-    eventlet.wsgi.server(eventlet.listen(('', 8888)), app)
+    eventlet.wsgi.server(eventlet.listen(('', 7777)), app)

@@ -1,14 +1,18 @@
+# MIT License
+# Copyright (c) 2019-2022 JetsonHacks
+
+# Using a CSI camera (such as the Raspberry Pi Version 2) connected to a
+# NVIDIA Jetson Nano Developer Kit using OpenCV
+# Drivers for the camera and OpenCV are included in the base image
+
 import cv2
- 
-# cap = cv2.VideoCapture(0)
- 
-# cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-# cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-# cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, False)
-# cap.set(cv2.CAP_PROP_AUTO_WB, False)
-# cap.set(cv2.CAP_PROP_FPS, 20)
 
-
+""" 
+gstreamer_pipeline returns a GStreamer pipeline for capturing from the CSI camera
+Flip the image by setting the flip_method (most common values: 0 and 2)
+display_width and display_height determine the size of each camera pane in the window on the screen
+Default 1920x1080 displayd in a 1/4 size window
+"""
 
 def gstreamer_pipeline(
     sensor_id=0,
@@ -38,21 +42,26 @@ def gstreamer_pipeline(
     )
 
 
-def show():
-    window_title = 'aiot'
-    video_capture = cv2.VideoCapture(0)
-    # video_capture = cv2.VideoCapture(0, cv2.CAP_GSTREAMER)
-    # video_capture = cv2.VideoCapture(gstreamer_pipeline(), cv2.CAP_GSTREAMER)
+def show_camera():
+    window_title = "CSI Camera"
+
+    # To flip the image, modify the flip_method parameter (0 and 2 are the most common)
+    print(gstreamer_pipeline(flip_method=0))
+    video_capture = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
     if video_capture.isOpened():
         try:
             window_handle = cv2.namedWindow(window_title, cv2.WINDOW_AUTOSIZE)
             while True:
                 ret_val, frame = video_capture.read()
+                # Check to see if the user closed the window
+                # Under GTK+ (Jetson Default), WND_PROP_VISIBLE does not work correctly. Under Qt it does
+                # GTK - Substitute WND_PROP_AUTOSIZE to detect if window has been closed by user
                 if cv2.getWindowProperty(window_title, cv2.WND_PROP_AUTOSIZE) >= 0:
                     cv2.imshow(window_title, frame)
                 else:
-                    break
+                    break 
                 keyCode = cv2.waitKey(10) & 0xFF
+                # Stop the program on the ESC key or 'q'
                 if keyCode == 27 or keyCode == ord('q'):
                     break
         finally:
@@ -62,18 +71,5 @@ def show():
         print("Error: Unable to open camera")
 
 
-# if cap.isOpened():
-#     ret, a = cap.read()
- 
-#     while ret:
-#         ret, a = cap.read()
-#         cv2.imshow("camera", a)
- 
-#         if cv2.waitKey(1) & 0xFF == 27:
-#             break
- 
-# cap.release()
-# cv2.destroyAllWindows()
-
 if __name__ == "__main__":
-    show()
+    show_camera()
