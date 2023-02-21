@@ -27,8 +27,8 @@
                   <i class="bi bi-egg-fried"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>145</h6>
-                  <span class="text-danger small pt-1 fw-bold">-6</span> <span class="text-muted small pt-2 ps-1">changes</span>
+                  <h6>{{ data['snack_count'] }}</h6>
+                  <span class="text-danger small pt-1 fw-bold">{{ data['snack_count_in_hour'] }}</span> <span class="text-muted small pt-2 ps-1">called in hour</span>
 
                 </div>
               </div>
@@ -49,9 +49,8 @@
                   <i class="bi bi-speaker"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>50</h6>
-                  <span class="text-primary small pt-1 fw-bold">+2</span> <span class="text-muted small pt-2 ps-1">excuted</span>
-
+                  <h6>{{ data['speaker_count'] }}</h6>
+                  <span class="text-primary small pt-1 fw-bold">{{ data['speaker_count_in_hour'] }}</span> <span class="text-muted small pt-2 ps-1">called in hour</span>
                 </div>
               </div>
             </div>
@@ -150,35 +149,35 @@
                     <td><div href="#" class="text-primary fw-bold">닭다리</div></td>
                     <td>+3</td>
                     <td>-2</td>
-                    <td class="fw-bold">20</td>
+                    <td class="fw-bold">{{ data['snack_list']['chicken_legs'] }}</td>
                   </tr>
                   <tr>
                     <th scope="row"><img src="/static/assets/img/snack/s2.jpg" alt=""></th>
                     <td><div href="#" class="text-primary fw-bold">칸쵸</div></td>
                     <td>+3</td>
                     <td>-2</td>
-                    <td class="fw-bold">20</td>
+                    <td class="fw-bold">{{ data['snack_list']['kancho'] }}</td>
                   </tr>
                   <tr>
                     <th scope="row"><img src="/static/assets/img/snack/s3.jpg" alt=""></th>
                     <td><div href="#" class="text-primary fw-bold">롤리폴리</div></td>
                     <td>+3</td>
                     <td>-2</td>
-                    <td class="fw-bold">20</td>
+                    <td class="fw-bold">{{ data['snack_list']['rollpoly'] }}</td>
                   </tr>
                   <tr>
                     <th scope="row"><img src="/static/assets/img/snack/s4.jpg" alt=""></th>
                     <td><div href="#" class="text-primary fw-bold">쫄병 안성탕면</div></td>
                     <td>+3</td>
                     <td>-2</td>
-                    <td class="fw-bold">20</td>
+                    <td class="fw-bold">{{ data['snack_list']['ramen_snack'] }}</td>
                   </tr>
                   <tr>
                     <th scope="row"><img src="/static/assets/img/snack/s5.jpg" alt=""></th>
                     <td><div href="#" class="text-primary fw-bold">고래밥</div></td>
                     <td>+3</td>
                     <td>-2</td>
-                    <td class="fw-bold">20</td>
+                    <td class="fw-bold">{{ data['snack_list']['whale_food'] }}</td>
                   </tr>
                 </tbody>
               </table>

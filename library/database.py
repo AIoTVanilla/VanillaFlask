@@ -1,10 +1,12 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import os
 import socket
 from collections import Counter
+from google.api_core.datetime_helpers import DatetimeWithNanoseconds
+import time
 
 # Use a service account.
 # /Users/suyoung/Documents/dev/aiot/AIoTClass/webapp/aiot-nuguna-03687aeaa9e6.json
@@ -30,9 +32,16 @@ def save_speaker_log(command, result):
 def get_snack_count(snack_status):
     return Counter(snack_status)
 
+def get_current_hour_timestamp():
+    date_time = datetime.now()
+    timestamp = time.mktime(date_time.timetuple())
+    timestamp = int(timestamp - (timestamp % 3600))
+    return timestamp
+
 def save_snack_log(snack_status):
     global last_snack_count
     snack_count = get_snack_count(snack_status)
+    timestamp = get_current_hour_timestamp()
 
     if dict(snack_count) !=  dict(last_snack_count):
         data = {
@@ -43,7 +52,11 @@ def save_snack_log(snack_status):
             "whale_food": snack_count['whale_food'],
             "execute_time": firestore.firestore.SERVER_TIMESTAMP
         }
-        db.collection('snack').document().set(data)
+        doc_ref = db.collection('snack').document(str(timestamp))
+        if doc_ref.get().exists:
+            doc_ref.update(data)
+        else:
+            doc_ref.create(data)
 
         s_copy = snack_count.copy()
         s_copy.subtract(last_snack_count)
@@ -59,6 +72,30 @@ def save_snack_log(snack_status):
 
         last_snack_count = snack_count
 
+def get_current_call_count(path):
+    current_date = datetime.now()
+    ts = DatetimeWithNanoseconds(current_date.year, current_date.month, current_date.day, 0, 0, 0, 0, tzinfo=timezone(timedelta(hours=9)))
+
+    items = db.collection(path).order_by('execute_time').start_at({
+        "execute_time": ts
+    }).get()
+    return len(items)
+
+def get_data_in_hour(path):
+    current_date = datetime.now()
+    ts = DatetimeWithNanoseconds(current_date.year, current_date.month, current_date.day, current_date.hour, current_date.minute, 0, 0, tzinfo=timezone(timedelta(hours=10)))
+
+    items = db.collection(path).order_by('execute_time').start_at({
+        "execute_time": ts
+    }).get()
+    # size = len(items)
+    # return size, items[-1].to_dict() if size > 0 else {}
+    return len(items)
+
+def get_current_snack_list():
+    timestamp = get_current_hour_timestamp()
+    doc = db.collection('snack').document(str(timestamp)).get()
+    return doc.to_dict() if doc.exists else {}
 
 def get_device(d_id):
     device = db.collection('mdevice').document(d_id).get()

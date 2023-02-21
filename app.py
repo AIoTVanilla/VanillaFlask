@@ -9,11 +9,10 @@ import time
 import threading
 from library.yolo_manager import get_last_frame, show, get_snack_data
 import json
-from library.database import save_snack_log, save_speaker_log
+import base64
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vanilla'
-DID = 'd000001'
 socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 
@@ -41,16 +40,20 @@ def flask_logger():
         yield current_time.encode()
         time.sleep(1)
 
-
-@app.route("/log_stream", methods=['POST', 'GET'])
-def log_stream():
-    """returns logging information"""
-    print("logging....")
-    return Response(flask_logger(), mimetype="text/plain", content_type="text/event-stream")
-
 @app.route("/board", methods=['POST', 'GET'])
-def board():
-    return render_template('board.html')
+def board(data = None):
+    print('--' * 20)
+    recent_snack_count = get_data_in_hour('snack');
+    recent_speaker_count = get_data_in_hour('speaker');
+    json_data = {
+        "snack_count": get_current_call_count('snack'),
+        "speaker_count": get_current_call_count('speaker'),
+        "snack_count_in_hour": recent_snack_count,
+        "speaker_count_in_hour": recent_speaker_count,
+        "snack_list": get_current_snack_list()
+    }
+    print('--' * 20)
+    return render_template('board.html', data = json_data)
 
 @app.route('/session')
 def session():
@@ -104,7 +107,6 @@ def snack_tracking():
     print("tracking!!!")
 
 def ping_in_intervals():
-    count = 0
     snack_status = False
     while True:
         socketio.sleep(1)
@@ -124,56 +126,6 @@ def ping_in_intervals():
 @app.teardown_request
 def shutdown_session(exception=None):
     pass
-
-def get_growth(growth):
-    if growth == 0:
-        return '씨앗'
-    elif growth == 1:
-        return '새싹'
-    elif growth == 2:
-        return '성장'
-    elif growth == 3:
-        return '성숙'
-
-def get_monitor(sensor):
-    if sensor['water_level'] == 0:
-        water_level = '부족상태'
-    else:
-        water_level = '유지상태'
-    turbidity = -1120.4 * np.square(sensor['turbidity']) + 5742.3 * sensor['turbidity'] - 4352.9
-    if 'fan' in sensor:
-        if sensor['fan'] == 'on':
-            fan = '회전'
-        else:
-            fan = '비회전'
-    else:
-        fan = '비회전'
-    return {
-        'temp' : '{}℃'.format(sensor['temperature']),
-        'humidity' : '{}%'.format(sensor['humidity']),
-        'water_level' : '{}'.format(water_level),
-        'ph' : '{}pH'.format(sensor['ph']),
-        'turbidity' : '{:.2f}ntu'.format(turbidity),
-        'fan' : '{}중'.format(fan),
-    }
-
-def get_board(device):
-    cnt = len(device['sensor'])
-    if cnt >20:
-        cnt = 20
-        sensors = device['sensor'][-20:]
-        sensors.reverse()
-        timeline = [sensor['update_time'] for sensor in sensors][-20:]
-
-    else:
-        sensors = device['sensor']
-        sensors.reverse()
-        timeline = [sensor['update_time'] for sensor in sensors]
-
-    # print(sensors)
-    msensors = [get_monitor(sensor) for sensor in sensors]
-
-    return msensors, timeline
 
 if __name__ == '__main__':
     thread = threading.Thread(target=show, args=())
