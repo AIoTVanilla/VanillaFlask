@@ -21,7 +21,7 @@
 
 
       <div class="video-container">
-        <img id="image" width="384" height="216" class="corner"></img>
+        <img id="image" width="384" height="216" class="corner" alt=""></img>
       </div>
       
       <!-- <div class="video-container">
@@ -74,16 +74,12 @@
     </div>
 
     <div class="container">
-      <div class="row featurette">
-        <div class="row">
-          <code id="log" class="logging_window" readonly disabled></code>
-        </div>
-      </div>
+      <code id="log" class="row featurette logging_window" readonly disabled></code>
     </div>
 
     <script>
       const log = document.getElementById('log');
-      // const image = document.getElementById('image');
+      const image = document.getElementById('image');
 
       const socket = io.connect('ws://' + document.domain + ':' + location.port);
       socket.on('connect', () => {
@@ -98,12 +94,74 @@
         log.scrollTop = log.scrollHeight
       })
       socket.on('frame', (frame) => {
-        console.log("frame...")
+        console.log("frame...", frame != "None")
+        if (frame != undefined) {
+          image.src = frame
+        }
       })
 
-      document.addEventListener('load', () => {
-        console.log("loaded..")
-      })
+      // setInterval(() => {
+      //   console.log("loaded..")
+
+      //   var formdata =  new FormData();
+      //   // formdata.append("snap", file);
+
+      //   var xhr = new XMLHttpRequest();
+      //   xhr.open("POST", "{{ url_for('cap_img') }}", true);
+      //   xhr.responseType = 'blob';
+      //   xhr.onload = function() {
+
+      //       if(this.status = 200) {
+      //           //console.log(this.response);
+      //       } else {
+      //           console.error(xhr);
+      //       }
+
+      //       image.src = URL.createObjectURL(this.response); // blob
+      //   };
+      //   // send form in AJAX
+      //   xhr.send(formdata);
+        
+
+      // }, 1000)
+
+
+    // var video = document.getElementById('video');
+    // var canvas = document.getElementById('canvas');
+    // var context = canvas.getContext('2d');
+    // // Get access to the camera!
+    // if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    //     navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+    //         video.srcObject = stream;
+    //         video.play();
+    //         window.setInterval(function() {
+    //             context.drawImage(video, 0, 0, 416, 416); // better use size because camera may gives data in different size then <video> is displaying
+    //             canvas.toBlob(upload, "image/jpeg");
+    //         }, 100);
+    //     });
+    // }
+
+    // function upload(file) {
+    //     var formdata =  new FormData();
+    //     formdata.append("snap", file);
+
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open("POST", "{{ url_for('upload') }}", true);
+    //     xhr.responseType = 'blob';
+    //     xhr.onload = function() {
+
+    //         if(this.status = 200) {
+    //             //console.log(this.response);
+    //         } else {
+    //             console.error(xhr);
+    //         }
+
+    //         image.src = URL.createObjectURL(this.response); // blob
+    //     };
+    //     // send form in AJAX
+    //     xhr.send(formdata);
+    //     //image.src = URL.createObjectURL(file);
+    // }
     </script>
 
   </section>

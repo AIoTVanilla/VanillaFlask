@@ -14,12 +14,13 @@ import base64
 import imutils
 import time
 import threading
+from yolo_manager import check_yolo
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vanilla'
 DID = 'd000001'
-socketio = SocketIO(app, ping_in_intervals=2000)
+socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 
 # model = torch.hub.load("ultralytics/yolov5", "yolov5s", pretrained=True, force_reload=False)
@@ -28,6 +29,11 @@ model.eval()
 model.conf = 0.25  # confidence threshold (0-1)
 model.iou = 0.45  # NMS IoU threshold (0-1) 
 print(model.iou, model.conf)
+
+img = []
+cap = None
+app_not_done = True
+camera_status = None
 
 def capture_camera():
     print("capture_camera")
@@ -38,17 +44,18 @@ def gen():
     # cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     # cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
     # cap.set(cv2.CAP_PROP_FPS, 20)
-    print("camera opened...", cap.isOpened())
 
     while(cap.isOpened()):
         # Capture frame-by-fram ## read the camera frame
         success, frame = cap.read()
+        # print("1111")
         if success == True:
             ret, buffer=cv2.imencode('.jpg', frame)
             frame=buffer.tobytes()
             
             img = Image.open(io.BytesIO(frame))
             results = model(img, size=640)
+            # print("2222")
 
             # print("--" * 20)
             targets = results.pandas().xyxy[0]
@@ -59,6 +66,7 @@ def gen():
             img = np.squeeze(results.render()) #RGB
             img_BGR = cv2.cvtColor(img, cv2.COLOR_RGB2BGR) #BGR
         else:
+            # print("3333")
             break
 
         frame = cv2.imencode('.jpg', img_BGR)[1].tobytes()
@@ -138,7 +146,7 @@ def image(data_image):
 def video():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route("/monitor/", methods=['POST', 'GET'])
+@app.route("/monitor", methods=['POST', 'GET'])
 def monitor():
     m = {
         "temp": 20,
@@ -234,7 +242,7 @@ def ping_in_intervals():
     count = 0
     snack_status = False
     while True:
-        socketio.sleep(5)
+        socketio.sleep(1)
         # socketio.emit('snack', {
         #     'success': True,
         #     'result': bool(snack_status)
@@ -244,6 +252,7 @@ def ping_in_intervals():
             'time': datetime.datetime.now().strftime("%Y%m%d %H%M%S"),
             'result': bool(snack_status)
         })
+        socketio.emit('frame', camera_status)
         snack_status = snack_status == False
 
 @app.teardown_request
@@ -300,31 +309,7 @@ def get_board(device):
 
     return msensors, timeline
 
-def get_chart(device, type):
-    cnt = len(device['sensor'])
-    if cnt > 20:
-        cnt = 20
-        sensors = device['sensor'][-20:]
-        sensors.reverse()
-    else:
-        sensors = device['sensor']
-        sensors.reverse()
-
-    if type == 'temp':
-        return [sensor['temperature'] for sensor in sensors]
-    elif type == 'humidity':
-        return [sensor['humidity'] for sensor in sensors]
-    elif type == 'ph':
-        return [sensor['ph'] for sensor in sensors]
-    elif type == 'turbidity':
-        return [sensor['turbidity'] for sensor in sensors]
-    
-
-img = []
-cap = None
-app_not_done = True
-
-@app.route("/cap_img")
+@app.route("/cap_img", methods=['GET', 'POST'])
 def cap_img():
     retval, buffer = cv2.imencode('.png', img)
     response = make_response(buffer.tobytes())
@@ -361,26 +346,113 @@ class CameraThread(threading.Thread):
         cap.release()
 
 
+def gstreamer_pipeline(
+    sensor_id=0,
+    capture_width=1920,
+    capture_height=1080,
+    display_width=960,
+    display_height=540,
+    framerate=30,
+    flip_method=0,
+):
+    return (
+        "nvarguscamerasrc sensor-id=%d !"
+        "video/x-raw(memory:NVMM), width=(int)%d, height=(int)%d, framerate=(fraction)%d/1 ! "
+        "nvvidconv flip-method=%d ! "
+        "video/x-raw, width=(int)%d, height=(int)%d, format=(string)BGRx ! "
+        "videoconvert ! "
+        "video/x-raw, format=(string)BGR ! appsink"
+        % (
+            sensor_id,
+            capture_width,
+            capture_height,
+            framerate,
+            flip_method,
+            display_width,
+            display_height,
+        )
+    )
+
+def show():
+    global camera_status
+
+    window_title = 'vanilla_monitor'
+    video_capture = cv2.VideoCapture(0)
+    # video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+    # video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+    
+    # video_capture = cv2.VideoCapture(0, cv2.CAP_GSTREAMER)
+    # video_capture = cv2.VideoCapture(gstreamer_pipeline(), cv2.CAP_GSTREAMER)
+    if video_capture.isOpened():
+        try:
+            window_handle = cv2.namedWindow(window_title, cv2.WINDOW_AUTOSIZE)
+            while True:
+                ret_val, frame = video_capture.read()
+                if cv2.getWindowProperty(window_title, cv2.WND_PROP_AUTOSIZE) >= 0:
+                    ret, buffer = cv2.imencode('.jpg', frame)
+                    frame = buffer.tobytes()
+                    
+                    img = Image.open(io.BytesIO(frame))
+                    results = model(img, size=640)
+
+                    targets = results.pandas().xyxy[0]
+                    check_yolo(targets)
+
+                    img = np.squeeze(results.render())
+                    img_BGR = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                    cv2.imshow(window_title, img_BGR)
+
+                    frame = imutils.resize(img_BGR, width=360)
+                    # frame = cv2.flip(frame, 1)
+                    imgencode = cv2.imencode('.jpg', frame)[1]
+                    stringData = base64.b64encode(imgencode).decode('utf-8')
+                    stringData = 'data:image/png;base64,' + stringData
+                    # data = base64.b64encode(frame)
+
+                    # camera_status = data
+                    camera_status = stringData
+
+                    # sbuf = StringIO()
+                    # sbuf.write(data_image)
+
+                    # # decode and convert into image
+                    # b = io.BytesIO(base64.b64decode(data_image))
+                    # pimg = Image.open(b)
+
+                    # ## converting RGB to BGR, as opencv standards
+                    # frame = cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
+
+                    # frame = imutils.resize(frame, width=700)
+                    # frame = cv2.flip(frame, 1)
+                    # imgencode = cv2.imencode('.jpg', frame)[1]
+
+                    # # base64 encode
+                    # stringData = base64.b64encode(imgencode).decode('utf-8')
+                    # b64_src = 'data:image/png;base64,'
+                    # stringData = b64_src + stringData
+
+                    # # emit the frame back
+                    # emit('response_back', stringData)
+                else:
+                    break
+
+                # yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                keyCode = cv2.waitKey(10) & 0xFF
+                if keyCode == 27 or keyCode == ord('q'):
+                    break
+        finally:
+            video_capture.release()
+            cv2.destroyAllWindows()
+    else:
+        print("Error: Unable to open camera")
 
 if __name__ == '__main__':
-    thrd = CameraThread('camera_thread')
-    thrd.daemon = True
-    thrd.start()
+    thread = threading.Thread(target=show, args=())
+    thread.daemon = True
+    thread.start()
 
     snack_list = ["chicken_legs", "kancho", "rollpoly", "ramen_snack", "whale_food"]
 
-    # $ openssl genrsa 1024 > server.key
-    # $ openssl req -new -x509 -nodes -sha1 -days 365 -key server.key > server.cert
-
-    # openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
-
     # app.run('0.0.0.0', 9999, debug=False)
-
     thread = socketio.start_background_task(ping_in_intervals)
-    # thread1 = socketio.start_background_task(gen)
-    # server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 8888)), certfile='secrets/cert.pem', keyfile='secrets/key.pem', server_side=True)
-    # eventlet.wsgi.server(server, app)
     eventlet.wsgi.server(eventlet.listen(('', 8888)), app)
-
-    app_not_done = False
-    thrd.join()
