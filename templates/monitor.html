@@ -67,7 +67,7 @@
 
       const socket = io.connect('ws://' + document.domain + ':' + location.port);
       socket.on('connect', () => {
-        console.log("connected socket..")
+        console.log("socket connected..")
       })
       socket.on('log', (msg) => {
         message = JSON.stringify(msg)

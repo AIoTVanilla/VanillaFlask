@@ -10,7 +10,7 @@ import time
 import threading
 from yolo_manager import get_last_frame, show, get_snack_data
 import json
-
+from database import save_snack_log
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vanilla'
@@ -125,6 +125,8 @@ def ping_in_intervals():
             'result': get_snack_data()
         })
         socketio.emit('frame', get_last_frame())
+        snack_data = get_snack_data()
+        save_snack_log(snack_data)
         snack_status = snack_status == False
 
 @app.teardown_request
