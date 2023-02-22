@@ -73,42 +73,36 @@ def hello():
 
 @app.route('/request_snack_count', methods=['GET'])
 def request_snack_count():
-    snack_count = random.randint(0, 10)
+    snack_list = get_current_snack_list();
     data = {
         "success": True,
-        "result": snack_count
+        "result": sum(snack_list.values())
     }
     save_speaker_log('request_snack_count', json.dumps(data))
     return data
 
 @app.route('/request_snack_list', methods=['GET'])
 def request_snack_list():
+    snack_list = get_current_snack_list();
     data = {
         "success": True,
-        "result": [
-            {"name": snack_list[0], "count": get_snack_count("s1")},
-            {"name": snack_list[1], "count": get_snack_count("s2")},
-            {"name": snack_list[2], "count": get_snack_count("s3")},
-            {"name": snack_list[3], "count": get_snack_count("s4")},
-            {"name": snack_list[4], "count": get_snack_count("s5")},
-        ]
+        "result": snack_list
     }
     save_speaker_log('request_snack_list', json.dumps(data))
     return data
 
 @app.route('/request_favorite_snack', methods=['GET'])
 def request_favorite_snack():
-    print(random.sample(snack_list, 3))
+    recent_warehouse_items = get_data_in_hour('warehouse', return_count=False);
+    items = recent_warehouse_items["outgoing"]
+    top_3_index = np.argsort(list(items.values()))[2:]
+    keys = list(items.keys())
     data = {
         "success": True,
-        "result": random.sample(snack_list, 3)
+        "result": [keys[int(top_3_index[0])], keys[int(top_3_index[1])], keys[int(top_3_index[2])]],
     }
     save_speaker_log('request_favorite_snack', json.dumps(data))
     return data
-
-@socketio.on('snack_tracking')
-def snack_tracking():
-    print("tracking!!!")
 
 def ping_in_intervals():
     snack_status = False
@@ -132,9 +126,9 @@ def shutdown_session(exception=None):
     pass
 
 if __name__ == '__main__':
-    # thread = threading.Thread(target=show, args=())
-    # thread.daemon = True
-    # thread.start()
+    thread = threading.Thread(target=show, args=())
+    thread.daemon = True
+    thread.start()
 
     snack_list = ["chicken_legs", "kancho", "rollpoly", "ramen_snack", "whale_food"]
 

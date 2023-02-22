@@ -107,7 +107,7 @@ def show():
                     imgencode = cv2.imencode('.png', img_BGR)[1]
                     stringData = base64.b64encode(imgencode).decode('utf-8')
                     last_frame = 'data:image/png;base64,' + stringData
-                    print(datetime.now() - start_ts)
+                    # print(datetime.now() - start_ts)
 
                     t1 = t2
                     # yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')

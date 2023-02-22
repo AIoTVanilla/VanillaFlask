@@ -30,7 +30,7 @@ def get_snack_count(snack_status):
 def get_current_hour_timestamp():
     date_time = datetime.now()
     timestamp = time.mktime(date_time.timetuple())
-    timestamp = int(timestamp - (timestamp % 3600))
+    timestamp = int(timestamp - (timestamp % 60))
     return timestamp
 
 def save_snack_log(snack_status):
