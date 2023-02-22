@@ -108,48 +108,67 @@ def get_data_in_hour(path, return_count = True):
             warehouse_data.append(item.to_dict())
         
         df = pd.DataFrame(warehouse_data)
+        if df.empty == False:
+            chicken_legs_incoming = sum_by_key(df, "chicken_legs", True)
+            kancho_incoming = sum_by_key(df, "kancho", True)
+            ramen_snack_incoming = sum_by_key(df, "ramen_snack", True)
+            rollpoly_incoming = sum_by_key(df, "rollpoly", True)
+            whale_food_incoming = sum_by_key(df, "whale_food", True)
 
-        chicken_legs_incoming = sum_by_key(df, "chicken_legs", True)
-        kancho_incoming = sum_by_key(df, "kancho", True)
-        ramen_snack_incoming = sum_by_key(df, "ramen_snack", True)
-        rollpoly_incoming = sum_by_key(df, "rollpoly", True)
-        whale_food_incoming = sum_by_key(df, "whale_food", True)
+            chicken_legs_outgoing = last_snack_count["chicken_legs"] - int(chicken_legs_incoming)
+            kancho_outgoing = last_snack_count["kancho"] - int(kancho_incoming)
+            ramen_snack_outgoing = last_snack_count["ramen_snack"] - int(ramen_snack_incoming)
+            rollpoly_outgoing = last_snack_count["rollpoly"] - int(rollpoly_incoming)
+            whale_food_outgoing = last_snack_count["whale_food"] - int(whale_food_incoming)
 
-        chicken_legs_outgoing = last_snack_count["chicken_legs"] - int(chicken_legs_incoming)
-        kancho_outgoing = last_snack_count["kancho"] - int(kancho_incoming)
-        ramen_snack_outgoing = last_snack_count["ramen_snack"] - int(ramen_snack_incoming)
-        rollpoly_outgoing = last_snack_count["rollpoly"] - int(rollpoly_incoming)
-        whale_food_outgoing = last_snack_count["whale_food"] - int(whale_food_incoming)
+            incoming_count = sum([chicken_legs_incoming, kancho_incoming, ramen_snack_incoming, rollpoly_incoming, whale_food_incoming])
+            # outgoing_count = sum([chicken_legs_outgoing, kancho_outgoing, ramen_snack_outgoing, rollpoly_outgoing, whale_food_outgoing])
 
-        incoming_count = sum([chicken_legs_incoming, kancho_incoming, ramen_snack_incoming, rollpoly_incoming, whale_food_incoming])
-        # outgoing_count = sum([chicken_legs_outgoing, kancho_outgoing, ramen_snack_outgoing, rollpoly_outgoing, whale_food_outgoing])
-
-        return {
-            "incoming_count": get_str_value(incoming_count, True),
-            # "outgoing_count": get_str_value(outgoing_count, False),
-            "incoming": {
-                "chicken_legs": get_str_value(chicken_legs_incoming, True),
-                "kancho": get_str_value(kancho_incoming, True),
-                "ramen_snack": get_str_value(ramen_snack_incoming, True),
-                "rollpoly": get_str_value(rollpoly_incoming, True),
-                "whale_food": get_str_value(whale_food_incoming, True),
-            },
-            "outgoing": {
-                "chicken_legs": get_str_value(chicken_legs_outgoing, False),
-                "kancho": get_str_value(kancho_outgoing, False),
-                "ramen_snack": get_str_value(ramen_snack_outgoing, False),
-                "rollpoly": get_str_value(rollpoly_outgoing, False),
-                "whale_food": get_str_value(whale_food_outgoing, False),
-            },
-
-        }
+            return {
+                "incoming_count": get_str_value(incoming_count, True),
+                # "outgoing_count": get_str_value(outgoing_count, False),
+                "incoming": {
+                    "chicken_legs": get_str_value(chicken_legs_incoming, True),
+                    "kancho": get_str_value(kancho_incoming, True),
+                    "ramen_snack": get_str_value(ramen_snack_incoming, True),
+                    "rollpoly": get_str_value(rollpoly_incoming, True),
+                    "whale_food": get_str_value(whale_food_incoming, True),
+                },
+                "outgoing": {
+                    "chicken_legs": get_str_value(chicken_legs_outgoing, False),
+                    "kancho": get_str_value(kancho_outgoing, False),
+                    "ramen_snack": get_str_value(ramen_snack_outgoing, False),
+                    "rollpoly": get_str_value(rollpoly_outgoing, False),
+                    "whale_food": get_str_value(whale_food_outgoing, False),
+                },
+            }
+        else:
+            return {
+                "incoming_count": get_str_value(0, True),
+                # "outgoing_count": get_str_value(outgoing_count, False),
+                "incoming": {
+                    "chicken_legs": get_str_value(0, True),
+                    "kancho": get_str_value(0, True),
+                    "ramen_snack": get_str_value(0, True),
+                    "rollpoly": get_str_value(0, True),
+                    "whale_food": get_str_value(0, True),
+                },
+                "outgoing": {
+                    "chicken_legs": get_str_value(0, False),
+                    "kancho": get_str_value(0, False),
+                    "ramen_snack": get_str_value(0, False),
+                    "rollpoly": get_str_value(0, False),
+                    "whale_food": get_str_value(0, False),
+                },
+            }
 
 def get_current_snack_list():
     timestamp = get_current_hour_timestamp()
     doc = db.collection('snack').document(str(timestamp)).get()
 
     dict = doc.to_dict()
-    del dict["execute_time"]
+    if dict != None:
+        del dict["execute_time"]
     return dict if doc.exists else {
         'chicken_legs': 0,
         'kancho': 0,
