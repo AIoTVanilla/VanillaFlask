@@ -72,19 +72,24 @@
       socket.on('log', (msg) => {
         message = JSON.stringify(msg)
         time = msg["time"]
-        result = msg["result"]
 
-        if (result.length > 0) {
-          st_legs.innerHTML = result.filter((item) => item == "chicken_legs").length
-          st_kancho.innerHTML = result.filter((item) => item == "kancho").length
-          st_rollpoly.innerHTML = result.filter((item) => item == "rollpoly").length
-          st_ramen.innerHTML = result.filter((item) => item == "ramen_snack").length
-          st_whale.innerHTML = result.filter((item) => item == "whale_food").length
-          log.innerHTML += `<span style="color: DarkGray">[${time}]</span>snack list:<span style="color: RosyBrown">${result}</span><br/>`
+        if ("result" in msg) {
+          result = msg["result"]
+          if (result.length > 0) {
+            st_legs.innerHTML = result.filter((item) => item == "chicken_legs").length
+            st_kancho.innerHTML = result.filter((item) => item == "kancho").length
+            st_rollpoly.innerHTML = result.filter((item) => item == "rollpoly").length
+            st_ramen.innerHTML = result.filter((item) => item == "ramen_snack").length
+            st_whale.innerHTML = result.filter((item) => item == "whale_food").length
+            log.innerHTML += `<span style="color: DarkGray">[${time}]</span>snack list:<span style="color: RosyBrown">${result}</span><br/>`
+          }
+          else {
+            log.innerHTML += `<span style="color: DarkGray">[${time}]</span>can't get snack data...<br/>`
+          }
+        } else {
+          log.innerHTML += `<span style="color: DarkGray">[${time}]</span>${msg["message"]}<br/>`
         }
-        else {
-          log.innerHTML += `<span style="color: DarkGray">[${time}]</span>can't get snack data...<br/>`
-        }
+
 
         log.scrollTop = log.scrollHeight
       })

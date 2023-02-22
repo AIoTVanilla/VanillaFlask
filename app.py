@@ -105,21 +105,39 @@ def request_favorite_snack():
     return data
 
 def ping_in_intervals():
-    snack_status = False
+    has_snack = False
+    snack_check_count = 0
+    
     while True:
         socketio.sleep(1)
-        # socketio.emit('snack', {
-        #     'success': True,
-        #     'result': bool(snack_status)
-        # })
+
+        snack_data = get_snack_data()
         socketio.emit('log', {
             'time': datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
-            'result': get_snack_data()
+            'result': snack_data
         })
         socketio.emit('frame', get_last_frame())
-        snack_data = get_snack_data()
         save_snack_log(snack_data)
-        snack_status = snack_status == False
+
+        snack_size = len(snack_data)
+        if snack_size > 0:
+            if snack_check_count == 10:
+                socketio.emit('snack', { 'success': True, 'result': True })
+                socketio.emit('log', {
+                    'time': datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
+                    'message': "snack is incoming..."
+                })
+            if snack_check_count < 0: snack_check_count = 0
+            else: snack_check_count += 1
+        elif snack_size == 0:
+            if snack_check_count == -10:
+                socketio.emit('snack', { 'success': True, 'result': False })
+                socketio.emit('log', {
+                    'time': datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
+                    'message': "snack is outgoing..."
+                })
+            if snack_check_count > 0: snack_check_count = 0
+            else: snack_check_count -= 1
 
 @app.teardown_request
 def shutdown_session(exception=None):
