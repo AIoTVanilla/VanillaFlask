@@ -9,11 +9,11 @@ import numpy as np
 from datetime import datetime
 import platform
 
-interval = 0.3  # sec
+interval = 0  # sec
 last_snack_status = []
 last_frame = None
 # model = torch.hub.load("ultralytics/yolov5", "yolov5s", pretrained=True, force_reload=False)
-model = torch.hub.load("ultralytics/yolov5", "custom", path = "snack" , force_reload=False)
+model = torch.hub.load("ultralytics/yolov5", "custom", path = "best" , force_reload=False)
 model.eval()
 model.conf = 0.25  # confidence threshold (0-1)
 model.iou = 0.45  # NMS IoU threshold (0-1) 
@@ -77,11 +77,11 @@ def show():
     t1 = datetime(1000, 1, 1)
 
     window_title = 'vanilla_monitor'
-    video_capture = cv2.VideoCapture(0)
+    video_capture = cv2.VideoCapture(1)
     is_mac = platform.system() == "Darwin"
     # video_capture = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
-    # video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    # video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+    video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+    video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
     
     # video_capture = cv2.VideoCapture(0, cv2.CAP_GSTREAMER)
     # video_capture = cv2.VideoCapture(gstreamer_pipeline(), cv2.CAP_GSTREAMER)
@@ -90,22 +90,23 @@ def show():
             if is_mac == False:
                 window_handle = cv2.namedWindow(window_title, cv2.WINDOW_AUTOSIZE)
             while True:
-                ret_val, frame = video_capture.read()
                 t2 = datetime.now()
                 dt = (t2 - t1).total_seconds()
 
                 if dt > interval:
                     ret_val, frame = video_capture.read()
 
+                    start_ts = datetime.now()
                     img_BGR = frameToYolo(frame)
                     if is_mac == False:
                         cv2.imshow(window_title, img_BGR)
 
-                    frame = imutils.resize(img_BGR, width=360)
-                    # frame = cv2.flip(frame, 1)
-                    imgencode = cv2.imencode('.jpg', frame)[1]
+                    frame = imutils.resize(img_BGR, width=180)
+                    frame = cv2.flip(frame, 1)
+                    imgencode = cv2.imencode('.png', img_BGR)[1]
                     stringData = base64.b64encode(imgencode).decode('utf-8')
                     last_frame = 'data:image/png;base64,' + stringData
+                    print(datetime.now() - start_ts)
 
                     t1 = t2
                     # yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
