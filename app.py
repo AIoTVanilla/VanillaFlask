@@ -94,18 +94,18 @@ def request_snack_list():
 @app.route('/request_favorite_snack', methods=['GET'])
 def request_favorite_snack():
     recent_warehouse_items = get_data_in_hour('warehouse', return_count=False);
-    items = recent_warehouse_items["outgoing"]
-    top_3_index = np.argsort(list(items.values()))[2:]
-    keys = list(items.keys())
+    items = recent_warehouse_items["incoming"]
+    for key in items.keys():
+        items[key] = int(items[key])
+    top_3_index = sorted(items, key=items.get, reverse=True)[:3]
     data = {
         "success": True,
-        "result": [keys[int(top_3_index[0])], keys[int(top_3_index[1])], keys[int(top_3_index[2])]],
+        "result": top_3_index,
     }
     save_speaker_log('request_favorite_snack', json.dumps(data))
     return data
 
 def ping_in_intervals():
-    has_snack = False
     snack_check_count = 0
     
     while True:
@@ -144,9 +144,9 @@ def shutdown_session(exception=None):
     pass
 
 if __name__ == '__main__':
-    thread = threading.Thread(target=show, args=())
-    thread.daemon = True
-    thread.start()
+    # thread = threading.Thread(target=show, args=())
+    # thread.daemon = True
+    # thread.start()
 
     snack_list = ["chicken_legs", "kancho", "rollpoly", "ramen_snack", "whale_food"]
 
