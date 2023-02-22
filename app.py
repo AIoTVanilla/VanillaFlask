@@ -47,6 +47,9 @@ def board(data = None):
     recent_snack_count = get_data_in_hour('snack');
     recent_speaker_count = get_data_in_hour('speaker');
     recent_warehouse_items = get_data_in_hour('warehouse', return_count=False);
+    get_request_history()
+    recent_activity = get_recent_activity()
+    print(recent_activity)
     json_data = {
         "total_snack_count": sum(snack_list.values()),
         "snack_count": get_current_call_count('snack'),
@@ -55,6 +58,7 @@ def board(data = None):
         "speaker_count_in_hour": recent_speaker_count,
         "snack_list": snack_list,
         "recent_warehouse_items": recent_warehouse_items,
+        "recent_activity": recent_activity,
     }
     print('--' * 20)
     return render_template('board.html', data = json_data)

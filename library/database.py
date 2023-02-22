@@ -8,6 +8,7 @@ from collections import Counter
 from google.api_core.datetime_helpers import DatetimeWithNanoseconds
 import time
 import pandas as pd
+from library.config import get_snack_name, get_snack_color
 
 last_snack_count = Counter([])
 json_path = os.path.join(os.path.dirname(__file__).replace('library', ''), 'vanilla-3a108-firebase-adminsdk-ysr0t-9ce51811c0.json')
@@ -161,6 +162,37 @@ def get_data_in_hour(path, return_count = True):
                     "whale_food": get_str_value(0, False),
                 },
             }
+
+def get_request_history():
+    print("get_request_history")
+
+def get_recent_activity():
+    current_date = datetime.now()
+    ts = DatetimeWithNanoseconds(current_date.year, current_date.month, current_date.day, 0, 0, 0, 0, tzinfo=timezone(timedelta(hours=9)))
+
+    items = db.collection('warehouse').order_by('execute_time', direction=firestore.Query.DESCENDING).start_at({
+        "execute_time": ts
+    }).limit(6).get()
+    snack_name = get_snack_name()
+    snack_color = get_snack_color()
+
+    activites = []
+    for item in items:
+        activity = item.to_dict()
+        ts = activity["execute_time"].timestamp()
+        time = datetime.fromtimestamp(ts, tz=timezone(timedelta(hours=9))).strftime("%H:%M:%S")
+        del activity["execute_time"]
+        item = sorted(activity, key=lambda k: abs(activity[k]), reverse=True)[0]
+
+        count = activity[item]
+        activites.append({
+            "snack": snack_name[item],
+            "count": abs(count),
+            "event": "입고" if count > 0 else "출고",
+            "time": time,
+            "color": snack_color[item],
+        })
+    return activites
 
 def get_current_snack_list():
     timestamp = get_current_hour_timestamp()
