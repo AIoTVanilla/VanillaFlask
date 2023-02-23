@@ -121,6 +121,7 @@ def ping_in_intervals():
             'result': snack_data
         })
         socketio.emit('frame', get_last_frame())
+        socketio.emit('snack_list', snack_data)
         save_snack_log(snack_data)
 
         snack_size = len(snack_data)

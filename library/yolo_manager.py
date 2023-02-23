@@ -82,7 +82,7 @@ def show():
     video_capture = cv2.VideoCapture(1 if is_mac == False else 0)
     # video_capture = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
     video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
+    video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
     video_capture.set(cv2.CAP_PROP_FPS, 30)
     
     # video_capture = cv2.VideoCapture(0, cv2.CAP_GSTREAMER)
