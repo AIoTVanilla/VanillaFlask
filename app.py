@@ -15,6 +15,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vanilla'
 socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
+last_snack_set = set()
 
 @app.before_request
 def before_request():
@@ -108,7 +109,9 @@ def request_favorite_snack():
     return data
 
 def ping_in_intervals():
+    global last_snack_set
     snack_check_count = 0
+
     while True:
         socketio.sleep(1)
 
@@ -118,7 +121,11 @@ def ping_in_intervals():
             'result': snack_data
         })
         socketio.emit('frame', get_last_frame())
-        socketio.emit('snack_list', snack_data)
+
+        snack_set = set(snack_data)
+        if last_snack_set != snack_set:
+            socketio.emit('snack_list', list(snack_set))
+            last_snack_set = snack_set
         save_snack_log(snack_data)
 
         snack_size = len(snack_data)
@@ -149,9 +156,9 @@ def shutdown_session(exception=None):
     pass
 
 if __name__ == '__main__':
-    # thread = threading.Thread(target=show, args=())
-    # thread.daemon = True
-    # thread.start()
+    thread = threading.Thread(target=show, args=())
+    thread.daemon = True
+    thread.start()
 
     snack_list = ["chicken_legs", "kancho", "rollpoly", "ramen_snack", "whale_food"]
 
