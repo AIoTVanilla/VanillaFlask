@@ -42,7 +42,6 @@ def flask_logger():
 
 @app.route("/board", methods=['POST', 'GET'])
 def board(data = None):
-    print('--' * 20)
     snack_list = get_current_snack_list();
     recent_snack_count = get_data_in_hour('snack');
     recent_speaker_count = get_data_in_hour('speaker');
@@ -60,7 +59,6 @@ def board(data = None):
         "snack_situation": snack_situation,
         "recent_activity": recent_activity,
     }
-    print('--' * 20)
     return render_template('board.html', data = json_data)
 
 @app.route('/session')
@@ -151,9 +149,9 @@ def shutdown_session(exception=None):
     pass
 
 if __name__ == '__main__':
-    thread = threading.Thread(target=show, args=())
-    thread.daemon = True
-    thread.start()
+    # thread = threading.Thread(target=show, args=())
+    # thread.daemon = True
+    # thread.start()
 
     snack_list = ["chicken_legs", "kancho", "rollpoly", "ramen_snack", "whale_food"]
 

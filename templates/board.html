@@ -133,28 +133,38 @@
                           "{{ data['snack_situation'][5]['whale_food'] }}",
                           "{{ data['snack_situation'][6]['whale_food'] }}",
                         ]
-                      }, 
+                      }
                     ],
                     chart: {
                       height: 350,
-                      type: 'area',
+                      type: 'bar',
+                      stacked: true,
                       toolbar: {
                         show: false
                       },
-                      fontFamily: 'Gowun Dodum'
+                      fontFamily: 'Gowun Dodum',
+                    },
+                    plotOptions: {
+                      bar: {
+                        horizontal: false,
+                        // borderRadius: 10,
+                        dataLabels: {
+                          total: {
+                            enabled: true,
+                            style: {
+                              fontSize: '13px',
+                              fontWeight: 900
+                            }
+                          }
+                        }
+                      },
                     },
                     markers: {
                       size: 4
                     },
                     colors: ['#EE6666', '#FAC858', '#5470C6', '#73C0DE', '#91CC75'],
                     fill: {
-                      type: "gradient",
-                      gradient: {
-                        shadeIntensity: 1,
-                        opacityFrom: 0.1,
-                        opacityTo: 0.3,
-                        stops: [0, 90, 100]
-                      }
+                      opacity: 1
                     },
                     dataLabels: {
                       enabled: false
