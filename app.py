@@ -110,6 +110,7 @@ def request_favorite_snack():
     return data
 
 def ping_in_intervals():
+    snack_check_count = 0
     while True:
         socketio.sleep(1)
 
