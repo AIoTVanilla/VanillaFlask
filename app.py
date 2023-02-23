@@ -110,8 +110,6 @@ def request_favorite_snack():
     return data
 
 def ping_in_intervals():
-    snack_check_count = 0
-    
     while True:
         socketio.sleep(1)
 
@@ -127,6 +125,7 @@ def ping_in_intervals():
         snack_size = len(snack_data)
         if snack_size > 0:
             if snack_check_count == 10:
+                print("send snack notification")
                 socketio.emit('snack', { 'success': True, 'result': True })
                 socketio.emit('log', {
                     'time': datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
@@ -136,6 +135,7 @@ def ping_in_intervals():
             else: snack_check_count += 1
         elif snack_size == 0:
             if snack_check_count == -10:
+                print("send no snack notification")
                 socketio.emit('snack', { 'success': True, 'result': False })
                 socketio.emit('log', {
                     'time': datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
@@ -143,6 +143,7 @@ def ping_in_intervals():
                 })
             if snack_check_count > 0: snack_check_count = 0
             else: snack_check_count -= 1
+        # print("snack_check_count", snack_check_count)
 
 @app.teardown_request
 def shutdown_session(exception=None):
