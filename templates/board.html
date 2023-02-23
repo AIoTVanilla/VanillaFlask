@@ -73,13 +73,68 @@
               <script>
                 document.addEventListener("DOMContentLoaded", () => {
                   new ApexCharts(document.querySelector("#reportsChart"), {
-                    series: [{
-                      name: '간식',
-                      data: [31, 40, 28, 51, 42, 82, 56],
-                    }, {
-                      name: '스피커',
-                      data: [5, 22, 35, 12, 74, 42, 51]
-                    }],
+                    series: [
+                      {
+                        name: '닭다리',
+                        data: [
+                          "{{ data['snack_situation'][0]['chicken_legs'] }}",
+                          "{{ data['snack_situation'][1]['chicken_legs'] }}",
+                          "{{ data['snack_situation'][2]['chicken_legs'] }}",
+                          "{{ data['snack_situation'][3]['chicken_legs'] }}",
+                          "{{ data['snack_situation'][4]['chicken_legs'] }}",
+                          "{{ data['snack_situation'][5]['chicken_legs'] }}",
+                          "{{ data['snack_situation'][6]['chicken_legs'] }}",
+                        ]
+                      },
+                      {
+                        name: '칸쵸',
+                        data: [
+                          "{{ data['snack_situation'][0]['kancho'] }}",
+                          "{{ data['snack_situation'][1]['kancho'] }}",
+                          "{{ data['snack_situation'][2]['kancho'] }}",
+                          "{{ data['snack_situation'][3]['kancho'] }}",
+                          "{{ data['snack_situation'][4]['kancho'] }}",
+                          "{{ data['snack_situation'][5]['kancho'] }}",
+                          "{{ data['snack_situation'][6]['kancho'] }}",
+                        ]
+                      },
+                      {
+                        name: '롤리폴리',
+                        data: [
+                          "{{ data['snack_situation'][0]['rollpoly'] }}",
+                          "{{ data['snack_situation'][1]['rollpoly'] }}",
+                          "{{ data['snack_situation'][2]['rollpoly'] }}",
+                          "{{ data['snack_situation'][3]['rollpoly'] }}",
+                          "{{ data['snack_situation'][4]['rollpoly'] }}",
+                          "{{ data['snack_situation'][5]['rollpoly'] }}",
+                          "{{ data['snack_situation'][6]['rollpoly'] }}",
+                        ]
+                      }, 
+                      {
+                        name: '쫄병 안성탕면',
+                        data: [
+                          "{{ data['snack_situation'][0]['ramen_snack'] }}",
+                          "{{ data['snack_situation'][1]['ramen_snack'] }}",
+                          "{{ data['snack_situation'][2]['ramen_snack'] }}",
+                          "{{ data['snack_situation'][3]['ramen_snack'] }}",
+                          "{{ data['snack_situation'][4]['ramen_snack'] }}",
+                          "{{ data['snack_situation'][5]['ramen_snack'] }}",
+                          "{{ data['snack_situation'][6]['ramen_snack'] }}",
+                        ]
+                      }, 
+                      {
+                        name: '고래밥',
+                        data: [
+                          "{{ data['snack_situation'][0]['whale_food'] }}",
+                          "{{ data['snack_situation'][1]['whale_food'] }}",
+                          "{{ data['snack_situation'][2]['whale_food'] }}",
+                          "{{ data['snack_situation'][3]['whale_food'] }}",
+                          "{{ data['snack_situation'][4]['whale_food'] }}",
+                          "{{ data['snack_situation'][5]['whale_food'] }}",
+                          "{{ data['snack_situation'][6]['whale_food'] }}",
+                        ]
+                      }, 
+                    ],
                     chart: {
                       height: 350,
                       type: 'area',
@@ -91,13 +146,13 @@
                     markers: {
                       size: 4
                     },
-                    colors: ['#ff771d', '#4154f1'],
+                    colors: ['#EE6666', '#FAC858', '#5470C6', '#73C0DE', '#91CC75'],
                     fill: {
                       type: "gradient",
                       gradient: {
                         shadeIntensity: 1,
-                        opacityFrom: 0.3,
-                        opacityTo: 0.4,
+                        opacityFrom: 0.1,
+                        opacityTo: 0.3,
                         stops: [0, 90, 100]
                       }
                     },
@@ -110,7 +165,17 @@
                     },
                     xaxis: {
                       type: 'datetime',
-                      categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                      categories: [
+                        "{{ data['snack_situation'][0]['time'] }}", "{{ data['snack_situation'][1]['time'] }}",
+                        "{{ data['snack_situation'][2]['time'] }}", "{{ data['snack_situation'][3]['time'] }}",
+                        "{{ data['snack_situation'][4]['time'] }}", "{{ data['snack_situation'][5]['time'] }}",
+                        "{{ data['snack_situation'][6]['time'] }}",
+                      ]
+                    },
+                    yaxis: {
+                      min: 0,
+                      max: 5,
+                      tickAmount: 1,
                     },
                     tooltip: {
                       x: {
@@ -209,56 +274,6 @@
                 </div>
               </div>
             {% endfor %}
-
-
-            <!-- <div class="activity-item d-flex">
-              <div class="activite-label">{{ data['recent_activity'][0]['time'] }}</div>
-              <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-              <div class="activity-content">
-                {{ data['recent_activity'][0]['snack'] }} <a href="#" class="fw-bold text-dark">{{ data['recent_activity'][0]['count'] }}개</a> 입고
-              </div>
-            </div>
-
-            <div class="activity-item d-flex">
-              <div class="activite-label">56 min</div>
-              <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-              <div class="activity-content">
-                {{ data['recent_activity'][1]['snack'] }} <a href="#" class="fw-bold text-dark">2개</a> 입고
-              </div>
-            </div>
-
-            <div class="activity-item d-flex">
-              <div class="activite-label">2 hrs</div>
-              <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-              <div class="activity-content">
-                고래밥 <a href="#" class="fw-bold text-dark">1개</a> 입고
-              </div>
-            </div>
-
-            <div class="activity-item d-flex">
-              <div class="activite-label">1 day</div>
-              <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-              <div class="activity-content">
-                닭다리 <a href="#" class="fw-bold text-dark">1개</a> 입고
-              </div>
-            </div>
-
-            <div class="activity-item d-flex">
-              <div class="activite-label">2 days</div>
-              <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-              <div class="activity-content">
-                칸쵸 <a href="#" class="fw-bold text-dark">1개</a> 출고
-              </div>
-            </div
-
-            <div class="activity-item d-flex">
-              <div class="activite-label">4 weeks</div>
-              <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-              <div class="activity-content">
-                칸쵸 <a href="#" class="fw-bold text-dark">3개</a> 입고
-              </div>
-            </div> -->
-
           </div>
 
         </div>

@@ -16,6 +16,8 @@ cred = credentials.Certificate(json_path)
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
+log_count = 0
+
 def save_speaker_log(command, result):
     doc_ref = db.collection('speaker').document()
     data = {
@@ -35,38 +37,42 @@ def get_current_hour_timestamp():
     return timestamp
 
 def save_snack_log(snack_status):
-    global last_snack_count
-    snack_count = get_snack_count(snack_status)
-    timestamp = get_current_hour_timestamp()
+    global last_snack_count, log_count
 
-    if dict(snack_count) !=  dict(last_snack_count):
-        data = {
-            "chicken_legs": snack_count['chicken_legs'],
-            "kancho": snack_count['kancho'],
-            "rollpoly": snack_count['rollpoly'],
-            "ramen_snack": snack_count['ramen_snack'],
-            "whale_food": snack_count['whale_food'],
-            "execute_time": firestore.firestore.SERVER_TIMESTAMP
-        }
-        doc_ref = db.collection('snack').document(str(timestamp))
-        if doc_ref.get().exists:
-            doc_ref.update(data)
-        else:
-            doc_ref.create(data)
+    if log_count % 5 == 0:
+        snack_count = get_snack_count(snack_status)
+        timestamp = get_current_hour_timestamp()
 
-        s_copy = snack_count.copy()
-        s_copy.subtract(last_snack_count)
-        changes = {
-            "chicken_legs": s_copy['chicken_legs'],
-            "kancho": s_copy['kancho'],
-            "rollpoly": s_copy['rollpoly'],
-            "ramen_snack": s_copy['ramen_snack'],
-            "whale_food": s_copy['whale_food'],
-            "execute_time": firestore.firestore.SERVER_TIMESTAMP
-        }
-        db.collection('warehouse').document().set(changes)
+        if dict(snack_count) !=  dict(last_snack_count):
+            data = {
+                "chicken_legs": snack_count['chicken_legs'],
+                "kancho": snack_count['kancho'],
+                "rollpoly": snack_count['rollpoly'],
+                "ramen_snack": snack_count['ramen_snack'],
+                "whale_food": snack_count['whale_food'],
+                "execute_time": firestore.firestore.SERVER_TIMESTAMP
+            }
+            doc_ref = db.collection('snack').document(str(timestamp))
+            if doc_ref.get().exists:
+                doc_ref.update(data)
+            else:
+                doc_ref.create(data)
 
-        last_snack_count = snack_count
+            s_copy = snack_count.copy()
+            s_copy.subtract(last_snack_count)
+            changes = {
+                "chicken_legs": s_copy['chicken_legs'],
+                "kancho": s_copy['kancho'],
+                "rollpoly": s_copy['rollpoly'],
+                "ramen_snack": s_copy['ramen_snack'],
+                "whale_food": s_copy['whale_food'],
+                "execute_time": firestore.firestore.SERVER_TIMESTAMP
+            }
+            db.collection('warehouse').document().set(changes)
+
+            last_snack_count = snack_count
+        
+    log_count += 1
 
 def get_current_call_count(path):
     current_date = datetime.now()
@@ -163,12 +169,30 @@ def get_data_in_hour(path, return_count = True):
                 },
             }
 
-def get_request_history():
-    print("get_request_history")
+def get_snack_situation():
+    current_date = datetime.now()
+    ts = DatetimeWithNanoseconds(current_date.year, current_date.month, current_date.day, 9, 0, 0, 0)
+
+    items = db.collection('snack').order_by('execute_time', direction=firestore.Query.DESCENDING).start_at({
+        "execute_time": ts
+    }).limit(7).get()
+
+    situation_list = []
+    for item in items:
+        situation = item.to_dict()
+        ts = situation["execute_time"].timestamp()
+        time = datetime.fromtimestamp(ts, tz=timezone(timedelta(hours=9))).isoformat()
+
+        del situation["execute_time"]
+        situation["time"] = time
+        situation_list.append(situation)
+    
+    return situation_list
 
 def get_recent_activity():
     current_date = datetime.now()
-    ts = DatetimeWithNanoseconds(current_date.year, current_date.month, current_date.day, 0, 0, 0, 0, tzinfo=timezone(timedelta(hours=9)))
+    ts = DatetimeWithNanoseconds(current_date.year, current_date.month, current_date.day, 9, 0, 0, 0)
+    # ts = DatetimeWithNanoseconds(current_date.year, current_date.month, current_date.day, 0, 0, 0, 0, tzinfo=timezone(timedelta(hours=9)))
 
     items = db.collection('warehouse').order_by('execute_time', direction=firestore.Query.DESCENDING).start_at({
         "execute_time": ts

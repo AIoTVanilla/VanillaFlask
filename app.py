@@ -47,9 +47,8 @@ def board(data = None):
     recent_snack_count = get_data_in_hour('snack');
     recent_speaker_count = get_data_in_hour('speaker');
     recent_warehouse_items = get_data_in_hour('warehouse', return_count=False);
-    get_request_history()
+    snack_situation = get_snack_situation()
     recent_activity = get_recent_activity()
-    print(recent_activity)
     json_data = {
         "total_snack_count": sum(snack_list.values()),
         "snack_count": get_current_call_count('snack'),
@@ -58,6 +57,7 @@ def board(data = None):
         "speaker_count_in_hour": recent_speaker_count,
         "snack_list": snack_list,
         "recent_warehouse_items": recent_warehouse_items,
+        "snack_situation": snack_situation,
         "recent_activity": recent_activity,
     }
     print('--' * 20)
@@ -148,9 +148,9 @@ def shutdown_session(exception=None):
     pass
 
 if __name__ == '__main__':
-    # thread = threading.Thread(target=show, args=())
-    # thread.daemon = True
-    # thread.start()
+    thread = threading.Thread(target=show, args=())
+    thread.daemon = True
+    thread.start()
 
     snack_list = ["chicken_legs", "kancho", "rollpoly", "ramen_snack", "whale_food"]
 
