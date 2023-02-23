@@ -9,7 +9,7 @@ import numpy as np
 from datetime import datetime
 import platform
 
-interval = 0  # sec
+interval = 2  # sec
 last_snack_status = []
 last_frame = None
 # model = torch.hub.load("ultralytics/yolov5", "yolov5s", pretrained=True, force_reload=False)
