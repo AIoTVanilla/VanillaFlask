@@ -14,7 +14,7 @@ Flip the image by setting the flip_method (most common values: 0 and 2)
 display_width and display_height determine the size of each camera pane in the window on the screen
 Default 1920x1080 displayd in a 1/4 size window
 """
-interval = 0.4  # sec
+interval = 0  # sec
 
 def gstreamer_pipeline(
     sensor_id=0,

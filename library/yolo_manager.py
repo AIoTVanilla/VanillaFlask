@@ -13,7 +13,7 @@ interval = 2  # sec
 last_snack_status = []
 last_frame = None
 # model = torch.hub.load("ultralytics/yolov5", "yolov5s", pretrained=True, force_reload=False)
-model = torch.hub.load("ultralytics/yolov5", "custom", path = "vanillafinal" , force_reload=False)
+model = torch.hub.load("ultralytics/yolov5", "custom", path = "vanillafinal2" , force_reload=False)
 model.eval()
 model.conf = 0.25  # confidence threshold (0-1)
 model.iou = 0.45  # NMS IoU threshold (0-1) 
