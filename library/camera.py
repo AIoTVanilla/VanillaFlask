@@ -49,9 +49,9 @@ def show_camera():
     t1 = datetime(1000, 1, 1)
 
     # To flip the image, modify the flip_method parameter (0 and 2 are the most common)
-    video_capture = cv2.VideoCapture(1)
+    video_capture = cv2.VideoCapture(0)
     video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
+    video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
     # video_capture = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
     if video_capture.isOpened():
