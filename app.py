@@ -156,9 +156,9 @@ def shutdown_session(exception=None):
     pass
 
 if __name__ == '__main__':
-    thread = threading.Thread(target=show, args=())
-    thread.daemon = True
-    thread.start()
+    # thread = threading.Thread(target=show, args=())
+    # thread.daemon = True
+    # thread.start()
 
     snack_list = ["chicken_legs", "kancho", "rollpoly", "ramen_snack", "whale_food"]
 
